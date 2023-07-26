@@ -1,0 +1,26 @@
+.app {
+  background: #0e1217;
+  font-family: "Roboto", sans-serif;
+  position: relative;
+  min-height: 100vh;
+  color: white;
+  width: 100%;
+  z-index: 2;
+
+  &::before {
+    background-color: rgba(0, 0, 0, 0.6);
+    content: "";
+    display: block;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: -1;
+  }
+}
+.img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  z-index: -2;
+}

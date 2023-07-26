@@ -1,0 +1,32 @@
+.container {
+  height: 100vh;
+  display: flex;
+  flex: 1;
+}
+.calendarIcon {
+  height: 155px;
+  width: 140px;
+  object-fit: contain;
+  margin: 0 15px;
+}
+.top {
+  display: flex;
+}
+.right {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 40px 50px;
+  max-width: 450px;
+  width: 100%;
+}
+.bullet {
+  border: 1px solid var(--white) !important;
+  border-radius: 5px;
+  margin-top: 3rem;
+}
+.input {
+  border: 1px solid var(--black) !important;
+}
