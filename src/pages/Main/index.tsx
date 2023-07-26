@@ -55,6 +55,7 @@ const Main = () => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
     getValues,
   } = useForm();
 
@@ -75,6 +76,7 @@ const Main = () => {
         onSuccess: () => {
           successToast("created");
           refetch();
+          reset();
           $modal(false);
         },
       },
@@ -82,6 +84,7 @@ const Main = () => {
   };
 
   const handleValidation = () => {
+    console.log(todaysEvents, "todaysEvents");
     if (todaysEvents?.length)
       todaysEvents?.forEach(item => {
         if (
@@ -141,14 +144,6 @@ const Main = () => {
         </div>
 
         <div className="flex flex-col items-start ">
-          {/* <Typography
-            className="mb-4"
-            size={TextSize.XXL}
-            weight={Weight.medium}
-            textColor={TextColor.white}>
-            Conference Room #1
-          </Typography> */}
-
           <BaseInput className="mb-4">
             <MainSelect value={room_id} values={roomArr} onChange={handleRooms} />
           </BaseInput>
