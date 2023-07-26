@@ -4,10 +4,8 @@ import { Calendar, momentLocalizer, Event, Views, ToolbarProps } from "react-big
 import "moment/locale/ru";
 import useReservations from "src/hooks/useReservations";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import useReservation from "src/hooks/useReservation";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import Modal from "src/components/Modal";
 import Typography, { TextColor, TextSize, Weight } from "src/components/Typography";
 
 import "moment/locale/ru";
@@ -66,29 +64,11 @@ const EventComponent: React.FC<{ event: MyEvent }> = ({ event }) => {
 
 const CalendarScreen = () => {
   const { data: reservations, isLoading: reserveLoading } = useReservations({ all: true });
-  const { search } = useLocation();
-  const searchParams = new URLSearchParams(search);
-  const id = searchParams.get("id");
   const navigate = useNavigate();
-
-  const { data: event, refetch } = useReservation({ id: Number(id) });
 
   const handleSelectEvent = (event: MyEvent) => {
     navigate(`?id=${event.id}`);
   };
-
-  const renderParticipants = useMemo(() => {
-    if (event?.participants.length)
-      return event.participants.map(item => (
-        <Typography
-          key={item.id}
-          size={TextSize.XXL}
-          weight={Weight.regular}
-          textColor={TextColor.black}>
-          {item.email}
-        </Typography>
-      ));
-  }, [event?.participants]);
 
   const events: MyEvent[] = useMemo(() => {
     if (reservations?.length)
@@ -121,7 +101,7 @@ const CalendarScreen = () => {
         style={{ height: "100vh", width: "100%" }}
       />
 
-      <Modal isOpen={!!id} onClose={() => navigate("?")}>
+      {/* <Modal isOpen={!!id} onClose={() => navigate("?")}>
         <div className="flex flex-col items-start p-4">
           <div className="flex gap-4">
             <Typography size={TextSize.XXL} weight={Weight.bold} textColor={TextColor.black}>
@@ -162,7 +142,7 @@ const CalendarScreen = () => {
             <div className="flex flex-col items-start">{renderParticipants}</div>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };

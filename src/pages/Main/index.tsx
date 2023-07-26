@@ -17,31 +17,37 @@ import MainTextArea from "src/components/BaseInputs/MainTextArea";
 import { useForm } from "react-hook-form";
 import Loading from "src/components/Loader";
 import { useAppDispatch, useAppSelector } from "src/redux/reduxUtils/types";
-import { todaysEventsSelector } from "src/redux/reducers/reservations";
+import { emailSelector, todaysEventsSelector } from "src/redux/reducers/reservations";
 import reservationMutation from "src/hooks/mutation/reservationMutation";
 import { tokenSelector } from "src/redux/reducers/authReducer";
 import { successToast } from "src/utils/toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MainSelect from "src/components/BaseInputs/MainSelect";
 import { roomNumberHandler, roomSelector } from "src/redux/reducers/room";
+import { MultiValue } from "react-select";
+import { ValueLabel } from "src/utils/types";
+import MultiSelect from "src/components/BaseInputs/MultiSelect";
+import { customemails } from "src/utils/helpers";
 
+dayjs.extend(isBetween);
 const roomArr = [
   { id: 1, name: "Conference Room #1" },
   { id: 2, name: "Conference Room #2" },
 ];
 
-dayjs.extend(isBetween);
-
 const Main = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [startDate, $startDate] = useState<Date>(new Date());
   const [endDate, $endDate] = useState<Date | null>();
   const { data: reservations, isLoading: reserveLoading, refetch } = useReservations({});
   const [error, $error] = useState<string>();
+  const [selectedEmails, $selectedEmails] = useState<ValueLabel[]>([]);
   const todaysEvents = useAppSelector(todaysEventsSelector);
   const { mutate } = reservationMutation();
   const token = useAppSelector(tokenSelector);
   const room_id = useAppSelector(roomSelector);
+  const emails = useAppSelector(emailSelector);
 
   const [modal, $modal] = useState(false);
 
@@ -84,7 +90,6 @@ const Main = () => {
   };
 
   const handleValidation = () => {
-    console.log(todaysEvents, "todaysEvents");
     if (todaysEvents?.length)
       todaysEvents?.forEach(item => {
         if (
@@ -94,7 +99,6 @@ const Main = () => {
           $error("This time range has already been reserved");
           return false;
         }
-        // if (dayjs(startDate) > dayjs(endDate)) $error("Please select a valid time range");
         if (!endDate) $error("select end date");
         else {
           $modal(true);
@@ -110,18 +114,21 @@ const Main = () => {
           {reservations
             .filter(reservation => reservation.date === dayjs(new Date()).format("YYYY-MM-DD"))
             .map(item => (
-              <Typography
-                key={item.id}
-                size={TextSize.L}
-                weight={Weight.medium}
-                textColor={TextColor.white}>
-                {dayjs(item.from_time).format("HH:mm")} - {dayjs(item.to_time).format("HH:mm")} -{" "}
-                {item.title}
-              </Typography>
+              <div key={item.id} className="cursor-pointer" onClick={() => navigate(`?${item.id}`)}>
+                <Typography size={TextSize.L} weight={Weight.medium} textColor={TextColor.white}>
+                  {dayjs(item.from_time).format("HH:mm")} - {dayjs(item.to_time).format("HH:mm")} -{" "}
+                  {item.title}
+                </Typography>
+              </div>
             ))}
         </div>
       );
   }, [reservations]);
+
+  const handleEmails = (e: MultiValue<ValueLabel>) => {
+    // $selectedEmails(e)
+    console.log(e, "even");
+  };
 
   if (reserveLoading) return <Loading />;
 
@@ -216,10 +223,7 @@ const Main = () => {
           </BaseInput>
 
           <BaseInput label="Participants" labelClassName={"text-black"}>
-            <MainInput
-              className={"border-gray-400 text-gray-500"}
-              register={register("participants")}
-            />
+            <MultiSelect onChange={handleEmails} options={customemails} />
           </BaseInput>
           <Bullet className="mt-5 !border-gray-400" textColor={TextColor.gray} type="submit">
             Отправить

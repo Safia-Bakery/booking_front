@@ -28,7 +28,7 @@ const Modal: FC<Props> = ({
           className={clx(className, { [styles.centered]: centered }, styles.modal, [
             isOpen ? styles.fadeIn : styles.fadeOut,
           ])}>
-          <div className={styles.content}>{children}</div>
+          {children}
         </div>
       )}
     </>

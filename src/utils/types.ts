@@ -14,9 +14,19 @@ export interface BasePaginatedRes {
   pages: number;
 }
 
+export interface EmailTypes {
+  Email: string;
+  Name?: string;
+}
+
 export interface Participants {
   email: string;
   id: number;
+}
+
+export interface ValueLabel {
+  value: string;
+  label: string;
 }
 
 export interface Reservations {
@@ -28,4 +38,8 @@ export interface Reservations {
   description: string;
   participants: Participants[];
   id: number;
+}
+
+export interface MeTypes {
+  emails: EmailTypes[];
 }

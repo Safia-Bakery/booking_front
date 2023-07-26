@@ -5,14 +5,11 @@ import { TextColor } from "src/components/Typography";
 import tokenMutation from "src/hooks/mutation/tokenMutation";
 import { tokenHandler } from "src/redux/reducers/authReducer";
 import { useAppDispatch } from "src/redux/reduxUtils/types";
-import { errorToast, successToast } from "src/utils/toast";
+import { successToast } from "src/utils/toast";
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const responceError = () => {
-    errorToast("error");
-  };
 
   const { mutate } = tokenMutation();
 
@@ -22,12 +19,10 @@ const Login = () => {
       "https://www.googleapis.com/auth/contacts https://www.googleapis.com/auth/contacts.other.readonly https://www.googleapis.com/auth/calendar.events",
     onSuccess: tokenResponse => {
       console.log(tokenResponse, "tokenResponse");
-
       mutate(
         { code: tokenResponse.code },
         {
-          onSuccess: data => {
-            console.log(data, "data");
+          onSuccess: () => {
             dispatch(tokenHandler(tokenResponse.code));
             successToast("token saved");
             navigate("/");

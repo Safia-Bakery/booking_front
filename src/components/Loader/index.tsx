@@ -3,9 +3,7 @@ import styles from "./index.module.scss";
 const Loading = () => {
   return (
     <div className={styles.wrap}>
-      <div className="spinner-border text-primary" role="status">
-        <span className="sr-only">Loading...</span>
-      </div>
+      <img src="/assets/images/loading.gif" alt="loading" width={50} height={50} />
     </div>
   );
 };

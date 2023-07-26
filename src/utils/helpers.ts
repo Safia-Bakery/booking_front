@@ -59,3 +59,26 @@ export const queryClient = new QueryClient({
 export const parseTime = (timeString: string | null | undefined) => {
   return dayjs(timeString).format("YYYY-MM-DD HH:mm:ss");
 };
+
+export const emailsArr = [
+  {
+    Email: "adm2020@inha.uz",
+  },
+  {
+    Email: "kwoori@inha.ac.kr",
+    Name: "김우리",
+  },
+  {
+    Email: "shoxzodbey01@gmail.com",
+    Name: "Shoxzodbek Raximov",
+  },
+  {
+    Email: "ieltssubmit@mail.ru",
+  },
+];
+
+export const customemails = [
+  { value: "adm2020@inha.uz", label: "adm2020@inha.uz" },
+  { value: "kwoori@inha.ac.kr", label: "kwoori@inha.ac.kr" },
+  { value: "shoxzodbey01@gmail.com", label: "shoxzodbey01@gmail.com" },
+];
