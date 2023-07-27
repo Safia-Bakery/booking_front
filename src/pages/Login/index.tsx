@@ -18,7 +18,6 @@ const Login = () => {
     scope:
       "https://www.googleapis.com/auth/contacts https://www.googleapis.com/auth/contacts.other.readonly https://www.googleapis.com/auth/calendar.events",
     onSuccess: tokenResponse => {
-      console.log(tokenResponse, "tokenResponse");
       mutate(
         { code: tokenResponse.code },
         {
