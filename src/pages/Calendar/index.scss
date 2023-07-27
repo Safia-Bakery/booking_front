@@ -1,0 +1,17 @@
+.rbc-time-slot {
+  z-index: 1;
+  background-color: #888;
+}
+.rbc-event {
+  z-index: 10;
+}
+.rbc-today {
+  background-color: #a29e9e;
+
+  .rbc-time-slot {
+    background-color: #a29e9e !important;
+  }
+}
+.rbc-off-range-bg {
+  background-color: #e6e7cf;
+}

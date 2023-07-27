@@ -1,8 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../rootConfig";
+import { AuthTypes } from "src/utils/types";
 
 interface State {
-  token: string | null;
+  tokens: AuthTypes | null;
   me: {
     id: number;
     username: string;
@@ -12,7 +13,7 @@ interface State {
 }
 
 const initialState: State = {
-  token: null,
+  tokens: null,
   me: null,
 };
 
@@ -24,13 +25,13 @@ export const authReducer = createSlice({
       localStorage.clear();
     },
 
-    tokenHandler: (state, { payload }) => {
-      state.token = payload;
+    tokenHandler: (state, { payload }: PayloadAction<AuthTypes>) => {
+      state.tokens = payload;
     },
   },
 });
 
-export const tokenSelector = (state: RootState) => state.auth.token;
+export const tokenSelector = (state: RootState) => state.auth.tokens;
 export const roleSelector = (state: RootState) => state.auth.me;
 
 export const { tokenHandler, logoutHandler } = authReducer.actions;

@@ -5,7 +5,7 @@
   min-height: 100vh;
   color: white;
   width: 100%;
-  z-index: 2;
+  z-index: 10;
 
   &::before {
     background-color: rgba(0, 0, 0, 0.6);
@@ -17,10 +17,47 @@
     z-index: -1;
   }
 }
-.img {
-  position: absolute;
-  height: 100%;
+// .img {
+//   position: absolute;
+//   height: 100%;
+//   width: 100%;
+//   background-size: cover;
+//   z-index: -2;
+// }
+
+.bgBlock {
   width: 100%;
-  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
   z-index: -2;
+}
+
+/* Set up the background image */
+.bgImg {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+
+  &.animating {
+    opacity: 0;
+  }
+  &.animatingActive {
+    opacity: 1;
+  }
+}
+
+.img2 {
+  background-image: url("/assets/images/bg2.JPG");
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.img1 {
+  background-image: url("/assets/images/bg1.JPG");
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }

@@ -1,5 +1,4 @@
-import React, { FC } from "react";
-import styles from "./index.module.scss";
+import { FC } from "react";
 import Typography, { TextColor, TextSize, Weight } from "../Typography";
 
 interface Props {

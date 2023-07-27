@@ -6,7 +6,7 @@ import cl from "classnames";
 import dayjs from "dayjs";
 import BaseInput from "src/components/BaseInputs";
 import MainDatePicker from "src/components/BaseInputs/MainDatePicker";
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import Bullet from "src/components/Bullet";
 import useReservations from "src/hooks/useReservations";
 import Alert from "src/components/Alert";
@@ -15,19 +15,22 @@ import Modal from "src/components/Modal";
 import MainInput from "src/components/BaseInputs/MainInput";
 import MainTextArea from "src/components/BaseInputs/MainTextArea";
 import { useForm } from "react-hook-form";
-import Loading from "src/components/Loader";
 import { useAppDispatch, useAppSelector } from "src/redux/reduxUtils/types";
 import { emailSelector, todaysEventsSelector } from "src/redux/reducers/reservations";
 import reservationMutation from "src/hooks/mutation/reservationMutation";
-import { tokenSelector } from "src/redux/reducers/authReducer";
 import { successToast } from "src/utils/toast";
 import { Link, useNavigate } from "react-router-dom";
 import MainSelect from "src/components/BaseInputs/MainSelect";
-import { roomNumberHandler, roomSelector } from "src/redux/reducers/room";
-import { MultiValue } from "react-select";
+import {
+  animationHandler,
+  animationSelector,
+  roomNumberHandler,
+  roomSelector,
+} from "src/redux/reducers/room";
+import { ActionMeta, MultiValue } from "react-select";
 import { ValueLabel } from "src/utils/types";
 import MultiSelect from "src/components/BaseInputs/MultiSelect";
-import { customemails } from "src/utils/helpers";
+import Loading from "src/components/Loader";
 
 dayjs.extend(isBetween);
 const roomArr = [
@@ -35,24 +38,32 @@ const roomArr = [
   { id: 2, name: "Conference Room #2" },
 ];
 
-const Main = () => {
+const today = new Date();
+
+const Home = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [startDate, $startDate] = useState<Date>(new Date());
+  const [startDate, $startDate] = useState<Date>(today);
   const [endDate, $endDate] = useState<Date | null>();
-  const { data: reservations, isLoading: reserveLoading, refetch } = useReservations({});
+  const { data: reservations, refetch, isLoading: reserveLoading } = useReservations({});
   const [error, $error] = useState<string>();
-  const [selectedEmails, $selectedEmails] = useState<ValueLabel[]>([]);
   const todaysEvents = useAppSelector(todaysEventsSelector);
-  const { mutate } = reservationMutation();
-  const token = useAppSelector(tokenSelector);
+  const { mutate, isLoading: mutateLoading } = reservationMutation();
   const room_id = useAppSelector(roomSelector);
-  const emails = useAppSelector(emailSelector);
+  const [selectedEmails, $selectedEmails] = useState<string[]>([]);
+  const userEmails = useAppSelector(emailSelector);
+  const animation = useAppSelector(animationSelector);
 
   const [modal, $modal] = useState(false);
 
-  const handleRooms = (e: ChangeEvent<HTMLSelectElement>) =>
-    dispatch(roomNumberHandler(Number(e.target.value)));
+  const handleRooms = (e: ChangeEvent<HTMLSelectElement>) => {
+    dispatch(animationHandler(true));
+    let key = e.target.value;
+    setTimeout(() => {
+      dispatch(roomNumberHandler(Number(key)));
+      dispatch(animationHandler(false));
+    }, 500);
+  };
 
   const handleDateStart = (e: any) => $startDate(e);
   const handleDateEnd = (e: any) => $endDate(e);
@@ -69,14 +80,12 @@ const Main = () => {
     const { title, description } = getValues();
     mutate(
       {
-        room_id,
         from_time: startDate,
         to_time: endDate!,
         reservation_date: endDate!,
-        participants: [],
+        participants: selectedEmails,
         title,
         description,
-        access_token: token!,
       },
       {
         onSuccess: () => {
@@ -110,11 +119,14 @@ const Main = () => {
   const renderReservedTimes = useMemo(() => {
     if (reservations?.length)
       return (
-        <div className="flex flex-col items-start ml-3 max-h-60 overflow-y-auto pr-10">
+        <div className="flex flex-col items-start ml-3 h-60 overflow-y-auto pr-10">
           {reservations
-            .filter(reservation => reservation.date === dayjs(new Date()).format("YYYY-MM-DD"))
+            .filter(reservation => reservation.date === dayjs(today).format("YYYY-MM-DD"))
             .map(item => (
-              <div key={item.id} className="cursor-pointer" onClick={() => navigate(`?${item.id}`)}>
+              <div
+                key={item.id}
+                className="cursor-pointer"
+                onClick={() => navigate(`?id=${item.id}`)}>
                 <Typography size={TextSize.L} weight={Weight.medium} textColor={TextColor.white}>
                   {dayjs(item.from_time).format("HH:mm")} - {dayjs(item.to_time).format("HH:mm")} -{" "}
                   {item.title}
@@ -123,14 +135,22 @@ const Main = () => {
             ))}
         </div>
       );
-  }, [reservations]);
+  }, [reservations, room_id]);
 
-  const handleEmails = (e: MultiValue<ValueLabel>) => {
-    // $selectedEmails(e)
-    console.log(e, "even");
+  const handleEmails = (e: MultiValue<ValueLabel>, item: ActionMeta<ValueLabel>) => {
+    if (item.removedValue) $selectedEmails(e.map(item => item.value));
+    if (item?.option) $selectedEmails([...selectedEmails, item.option.value]);
   };
 
-  if (reserveLoading) return <Loading />;
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(animationHandler(false));
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [animation]);
+
+  if (reserveLoading || mutateLoading) return <Loading />;
 
   return (
     <Container className={styles.container}>
@@ -145,7 +165,7 @@ const Main = () => {
               Today
             </Typography>
             <Typography size={TextSize.XXL} weight={Weight.medium} textColor={TextColor.white}>
-              {dayjs(new Date()).format("dddd, MMMM-DD")}
+              {dayjs(today).format("dddd, MMMM-DD")}
             </Typography>
           </div>
         </div>
@@ -176,7 +196,7 @@ const Main = () => {
 
           <BaseInput label="start">
             <MainDatePicker
-              minTime={dayjs(new Date()).toDate()}
+              minTime={dayjs(today).toDate()}
               maxTime={dayjs().hour(20).minute(0).toDate()}
               selected={startDate}
               onChange={handleDateStart}
@@ -223,7 +243,7 @@ const Main = () => {
           </BaseInput>
 
           <BaseInput label="Participants" labelClassName={"text-black"}>
-            <MultiSelect onChange={handleEmails} options={customemails} />
+            <MultiSelect onChange={handleEmails} options={userEmails} />
           </BaseInput>
           <Bullet className="mt-5 !border-gray-400" textColor={TextColor.gray} type="submit">
             Отправить
@@ -234,4 +254,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default Home;

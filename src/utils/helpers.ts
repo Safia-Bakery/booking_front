@@ -69,7 +69,7 @@ export const emailsArr = [
     Name: "김우리",
   },
   {
-    Email: "shoxzodbey01@gmail.com",
+    Email: "sobirovn707@gmail.com",
     Name: "Shoxzodbek Raximov",
   },
   {
@@ -80,5 +80,5 @@ export const emailsArr = [
 export const customemails = [
   { value: "adm2020@inha.uz", label: "adm2020@inha.uz" },
   { value: "kwoori@inha.ac.kr", label: "kwoori@inha.ac.kr" },
-  { value: "shoxzodbey01@gmail.com", label: "shoxzodbey01@gmail.com" },
+  { value: "sobirovn707@gmail.com", label: "sobirovn707@gmail.com" },
 ];

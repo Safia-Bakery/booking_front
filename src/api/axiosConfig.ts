@@ -28,7 +28,7 @@ class BaseAPIClient {
 
   private handleRequestSuccess = (config: any): any => {
     const state = this.store?.getState();
-    const token = state?.auth.token;
+    const token = state?.auth.tokens?.token;
 
     if (token) {
       config.headers = {
@@ -44,7 +44,7 @@ class BaseAPIClient {
     return Promise.reject(e);
   };
 
-  public get<T>(url: string, params?: object, config?: AxiosRequestConfig) {
+  public get<T>(url: string, params?: object | null, config?: AxiosRequestConfig) {
     const fullUrl = this.buildUrlWithParams(url, params);
     return this.axiosInstance.get<T>(fullUrl, config);
   }
@@ -68,14 +68,14 @@ class BaseAPIClient {
     this.cancelTokenSource.cancel(message);
   }
 
-  private buildUrlWithParams(url: string, params?: object): string {
+  private buildUrlWithParams(url: string, params?: object | null): string {
     if (!params) {
       return url;
     }
 
     const queryParams = Object.entries(params)
       .filter(([_, value]) => value !== undefined) // Exclude undefined parameters
-      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .map(([key, value]) => `${encodeURI(key)}=${encodeURI(value)}`)
       .join("&");
 
     if (url.includes("?")) {

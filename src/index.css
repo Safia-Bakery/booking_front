@@ -83,3 +83,6 @@ body {
 #root {
   width: 100%;
 }
+.rbc-agenda-view {
+  overflow: auto !important;
+}

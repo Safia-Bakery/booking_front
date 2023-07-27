@@ -1,11 +1,10 @@
 import cl from "classnames";
 import { FC } from "react";
-import Select, { GroupBase, MultiValue } from "react-select";
-import { ValueLabel } from "src/utils/types";
+import Select from "react-select";
 import styles from "./index.module.scss";
 
 interface Props {
-  onChange?: (val: MultiValue<ValueLabel>) => void;
+  onChange?: (val: any, item?: any) => void;
   className?: string;
   value?: string;
   placeholder?: string | null;
@@ -41,7 +40,8 @@ const MultiSelect: FC<Props> = ({ onChange, options, className, ...others }) => 
   return (
     <Select
       className={cl(className, styles.input, "p-0")}
-      closeMenuOnSelect={false}
+      closeMenuOnSelect
+      onChange={onChange}
       options={options}
       isMulti
       styles={customStyles}

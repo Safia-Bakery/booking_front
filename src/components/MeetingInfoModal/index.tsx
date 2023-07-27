@@ -68,12 +68,14 @@ const MeetingInfoModal = () => {
               {dayjs(event?.to_time).format("DD/MM/YYYY HH:mm")}
             </Typography>
           </div>
-          <div className="flex items-start flex-col">
-            <Typography size={TextSize.XXL} weight={Weight.bold} textColor={TextColor.black}>
-              Participants:
-            </Typography>
-            <div className="flex flex-col items-start">{renderParticipants}</div>
-          </div>
+          {event?.participants.length && (
+            <div className="flex items-start flex-col">
+              <Typography size={TextSize.XXL} weight={Weight.bold} textColor={TextColor.black}>
+                Participants:
+              </Typography>
+              <div className="flex flex-col items-start">{renderParticipants}</div>
+            </div>
+          )}
         </div>
       )}
     </Modal>

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../rootConfig";
-import { EmailTypes, MeTypes, Reservations, ValueLabel } from "src/utils/types";
+import { MeTypes, Reservations, ValueLabel } from "src/utils/types";
 import dayjs from "dayjs";
 
 interface State {
@@ -25,12 +25,13 @@ export const reservations = createSlice({
       );
       state.todaysEvents = filtered;
     },
-    userEmails: (state, { payload }: PayloadAction<EmailTypes[]>) => {
-      const filtered = payload.map(item => ({
+    userEmails: (state, { payload }: PayloadAction<MeTypes>) => {
+      const filtered = payload?.users?.map(item => ({
         value: item.Email,
         label: item.Email,
       }));
       state.emails = filtered;
+      state.me = payload;
     },
   },
 });

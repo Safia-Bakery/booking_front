@@ -41,5 +41,9 @@ export interface Reservations {
 }
 
 export interface MeTypes {
-  emails: EmailTypes[];
+  users: EmailTypes[];
+}
+export interface AuthTypes {
+  token: string;
+  refresh_token: string;
 }

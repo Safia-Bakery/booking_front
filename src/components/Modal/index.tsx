@@ -1,6 +1,5 @@
-import { FC, ReactNode, useEffect } from "react";
+import { FC, ReactNode } from "react";
 import clx from "classnames";
-import { useLocation } from "react-router-dom";
 import styles from "./index.module.scss";
 
 interface Props {
@@ -18,8 +17,6 @@ const Modal: FC<Props> = ({
   children,
   className,
 }) => {
-  // const { pathname } = useLocation();
-
   return (
     <>
       <div className={clx(styles.overlay, { [styles.closed]: !isOpen })} onClick={onClose}></div>

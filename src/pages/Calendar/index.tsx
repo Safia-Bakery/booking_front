@@ -4,7 +4,8 @@ import { Calendar, momentLocalizer, Event, Views, ToolbarProps } from "react-big
 import "moment/locale/ru";
 import useReservations from "src/hooks/useReservations";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useNavigate } from "react-router-dom";
+import "./index.scss";
+import { Link, useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import Typography, { TextColor, TextSize, Weight } from "src/components/Typography";
 
@@ -23,13 +24,22 @@ const MyCustomToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) 
   return (
     <div className="flex py-3 px-2 justify-between">
       <div className="flex gap-4">
-        <Bullet textColor={TextColor.black} onClick={() => onNavigate("TODAY")}>
+        <Bullet
+          className="bg-mainGray"
+          textColor={TextColor.black}
+          onClick={() => onNavigate("TODAY")}>
           Сегодня
         </Bullet>
-        <Bullet textColor={TextColor.black} onClick={() => onNavigate("PREV")}>
+        <Bullet
+          className="bg-mainGray"
+          textColor={TextColor.black}
+          onClick={() => onNavigate("PREV")}>
           Назад
         </Bullet>
-        <Bullet textColor={TextColor.black} onClick={() => onNavigate("NEXT")}>
+        <Bullet
+          className="bg-mainGray"
+          textColor={TextColor.black}
+          onClick={() => onNavigate("NEXT")}>
           Следующий
         </Bullet>
       </div>
@@ -39,18 +49,33 @@ const MyCustomToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) 
       </Typography>
 
       <div className="flex gap-4">
-        <Bullet className="flex" textColor={TextColor.black} onClick={() => onView(Views.MONTH)}>
+        <Bullet
+          className="bg-mainGray"
+          textColor={TextColor.black}
+          onClick={() => onView(Views.MONTH)}>
           Месяц
         </Bullet>
-        <Bullet textColor={TextColor.black} onClick={() => onView(Views.WEEK)}>
+        <Bullet
+          className="bg-mainGray"
+          textColor={TextColor.black}
+          onClick={() => onView(Views.WEEK)}>
           Неделя
         </Bullet>
-        <Bullet textColor={TextColor.black} onClick={() => onView(Views.DAY)}>
+        <Bullet
+          className="bg-mainGray"
+          textColor={TextColor.black}
+          onClick={() => onView(Views.DAY)}>
           День
         </Bullet>
-        <Bullet textColor={TextColor.black} onClick={() => onView(Views.AGENDA)}>
+        <Bullet
+          className="bg-mainGray"
+          textColor={TextColor.black}
+          onClick={() => onView(Views.AGENDA)}>
           Повестка
         </Bullet>
+        <Link to="/">
+          <Bullet className="w-16 bg-sky-600 self-end">Домой</Bullet>
+        </Link>
       </div>
     </div>
   );
@@ -59,8 +84,6 @@ const MyCustomToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) 
 const EventComponent: React.FC<{ event: MyEvent }> = ({ event }) => {
   return <div>{event.title}</div>;
 };
-
-// moment.locale();
 
 const CalendarScreen = () => {
   const { data: reservations, isLoading: reserveLoading } = useReservations({ all: true });
@@ -90,59 +113,14 @@ const CalendarScreen = () => {
         startAccessor="start"
         endAccessor="end"
         onSelectEvent={handleSelectEvent}
-        // onSelectSlot={handleSelectSlot}
-        views={["month", "week", "day", "agenda"]}
         components={{
           event: EventComponent,
           toolbar: MyCustomToolbar,
         }}
         className="bg-white"
         defaultView="month"
-        style={{ height: "100vh", width: "100%" }}
+        style={{ height: "100vh", width: "100%", overflow: "auto", backgroundColor: "gray" }}
       />
-
-      {/* <Modal isOpen={!!id} onClose={() => navigate("?")}>
-        <div className="flex flex-col items-start p-4">
-          <div className="flex gap-4">
-            <Typography size={TextSize.XXL} weight={Weight.bold} textColor={TextColor.black}>
-              Title:
-            </Typography>
-            <Typography size={TextSize.XXL} weight={Weight.medium} textColor={TextColor.black}>
-              {event?.title}
-            </Typography>
-          </div>
-          <div className="flex gap-4">
-            <Typography size={TextSize.XXL} weight={Weight.bold} textColor={TextColor.black}>
-              Description:
-            </Typography>
-            <Typography size={TextSize.XXL} weight={Weight.medium} textColor={TextColor.black}>
-              {event?.description}
-            </Typography>
-          </div>
-          <div className="flex gap-4">
-            <Typography size={TextSize.XXL} weight={Weight.bold} textColor={TextColor.black}>
-              Starts:
-            </Typography>
-            <Typography size={TextSize.XXL} weight={Weight.medium} textColor={TextColor.black}>
-              {dayjs(event?.from_time).format("DD/MM/YYYY HH:mm")}
-            </Typography>
-          </div>
-          <div className="flex gap-4">
-            <Typography size={TextSize.XXL} weight={Weight.bold} textColor={TextColor.black}>
-              Ends:
-            </Typography>
-            <Typography size={TextSize.XXL} weight={Weight.medium} textColor={TextColor.black}>
-              {dayjs(event?.to_time).format("DD/MM/YYYY HH:mm")}
-            </Typography>
-          </div>
-          <div className="flex items-start flex-col">
-            <Typography size={TextSize.XXL} weight={Weight.bold} textColor={TextColor.black}>
-              Participants:
-            </Typography>
-            <div className="flex flex-col items-start">{renderParticipants}</div>
-          </div>
-        </div>
-      </Modal> */}
     </div>
   );
 };

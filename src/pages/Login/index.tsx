@@ -1,4 +1,4 @@
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 import { useNavigate } from "react-router-dom";
 import Bullet from "src/components/Bullet";
 import { TextColor } from "src/components/Typography";
@@ -22,8 +22,8 @@ const Login = () => {
       mutate(
         { code: tokenResponse.code },
         {
-          onSuccess: () => {
-            dispatch(tokenHandler(tokenResponse.code));
+          onSuccess: data => {
+            dispatch(tokenHandler(data));
             successToast("token saved");
             navigate("/");
           },
