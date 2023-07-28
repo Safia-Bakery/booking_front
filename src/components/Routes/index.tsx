@@ -11,17 +11,17 @@ import useVerify from "src/hooks/useVerify";
 import cl from "classnames";
 
 const Navigations = () => {
-  const token = useAppSelector(tokenSelector);
+  const me = useAppSelector(tokenSelector);
   const room_id = useAppSelector(roomSelector);
   const dispatch = useAppDispatch();
-  const { isError, error } = useVerify({ body: token, enabled: !!token });
+  const { isError, error } = useVerify({ body: me, enabled: !!me });
   const isAnimating = useAppSelector(animationSelector);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token?.token) navigate("/login");
+    if (!me?.token) navigate("/login");
     if (isError || error) dispatch(logoutHandler());
-  }, [token]);
+  }, [me, isError, error]);
 
   return (
     <div className={styles.app}>

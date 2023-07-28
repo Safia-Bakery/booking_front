@@ -34,8 +34,8 @@ import Loading from "src/components/Loader";
 
 dayjs.extend(isBetween);
 const roomArr = [
-  { id: 1, name: "Conference Room #1" },
-  { id: 2, name: "Conference Room #2" },
+  { id: 1, name: "Конференц зал #1" },
+  { id: 2, name: "Конференц зал #2" },
 ];
 
 const today = new Date();
@@ -93,6 +93,8 @@ const Home = () => {
           refetch();
           reset();
           $modal(false);
+          $startDate(today);
+          $endDate(undefined);
         },
       },
     );
@@ -105,7 +107,11 @@ const Home = () => {
           dayjs(startDate).isBetween(dayjs(item.from_time), dayjs(item.to_time), null, "[]") ||
           dayjs(endDate).isBetween(dayjs(item.from_time), dayjs(item.to_time), null, "[]")
         ) {
-          $error("This time range has already been reserved");
+          $error("Этот временной диапазон уже зарезервирован");
+          return false;
+        }
+        if (dayjs(endDate).isBefore(dayjs(startDate))) {
+          $error("Выберите правильный диапазон");
           return false;
         }
         if (!endDate) $error("select end date");
@@ -161,10 +167,10 @@ const Home = () => {
           </Link>
 
           <div className={"flex justify-between flex-col items-start py-2"}>
-            <Typography size={TextSize.XXL} weight={Weight.medium} textColor={TextColor.white}>
-              Today
+            <Typography size={TextSize.XXL} weight={Weight.bold} textColor={TextColor.white}>
+              Сегодня
             </Typography>
-            <Typography size={TextSize.XXL} weight={Weight.medium} textColor={TextColor.white}>
+            <Typography size={TextSize.fourty} weight={Weight.medium} textColor={TextColor.white}>
               {dayjs(today).format("dddd, MMMM-DD")}
             </Typography>
           </div>
@@ -179,7 +185,7 @@ const Home = () => {
             size={TextSize.XXL}
             weight={Weight.medium}
             textColor={TextColor.white}>
-            Reserved Times
+            Забронированное время
           </Typography>
           {renderReservedTimes}
         </div>
@@ -191,10 +197,10 @@ const Home = () => {
             size={TextSize.XXL}
             weight={Weight.medium}
             textColor={TextColor.white}>
-            New reservation
+            Новое мероприятие
           </Typography>
 
-          <BaseInput label="start">
+          <BaseInput label="Начало">
             <MainDatePicker
               minTime={dayjs(today).toDate()}
               maxTime={dayjs().hour(20).minute(0).toDate()}
@@ -202,7 +208,7 @@ const Home = () => {
               onChange={handleDateStart}
             />
           </BaseInput>
-          <BaseInput label="end" className="mt-10">
+          <BaseInput label="Конец" className="mt-10">
             <MainDatePicker
               minTime={dayjs(startDate).add(10, "minute").toDate() || startDate}
               maxTime={dayjs().hour(20).minute(0).toDate()}
@@ -212,7 +218,7 @@ const Home = () => {
           </BaseInput>
 
           <Bullet onClick={handleValidation} className={styles.bullet}>
-            reserve
+            Забронировать
           </Bullet>
           {error && <Alert error={error} />}
         </div>
@@ -221,7 +227,7 @@ const Home = () => {
       <Modal isOpen={modal && !error} onClose={() => $modal(false)}>
         <form onSubmit={handleSubmit(onSubmit)} className="p-3 w-96">
           <BaseInput
-            label="Title"
+            label="Название"
             labelClassName={"text-black"}
             className="mb-4"
             error={errors.title}>
@@ -242,7 +248,7 @@ const Home = () => {
             />
           </BaseInput>
 
-          <BaseInput label="Participants" labelClassName={"text-black"}>
+          <BaseInput label="Участники" labelClassName={"text-black"}>
             <MultiSelect onChange={handleEmails} options={userEmails} />
           </BaseInput>
           <Bullet className="mt-5 !border-gray-400" textColor={TextColor.gray} type="submit">

@@ -1,9 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "src/main";
+import { tokenSelector } from "src/redux/reducers/authReducer";
+import { useAppSelector } from "src/redux/reduxUtils/types";
 import { errorToast } from "src/utils/toast";
 import { Reservations } from "src/utils/types";
 
 export const useReservation = ({ id, enabled = true }: { enabled?: boolean; id: number }) => {
+  const token = useAppSelector(tokenSelector);
   return useQuery({
     queryKey: ["reservation", id],
     queryFn: () =>
@@ -13,7 +16,7 @@ export const useReservation = ({ id, enabled = true }: { enabled?: boolean; id: 
         .catch(error => {
           errorToast(error);
         }),
-    enabled: !!id && enabled,
+    enabled: !!id && enabled && !!token,
     refetchOnMount: true,
   });
 };

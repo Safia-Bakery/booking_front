@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "src/main";
 import { userEmails } from "src/redux/reducers/reservations";
 import { useAppDispatch } from "src/redux/reduxUtils/types";
-import { AuthTypes, EmailTypes, MeTypes } from "src/utils/types";
+import { errorToast } from "src/utils/toast";
+import { AuthTypes, MeTypes } from "src/utils/types";
 
 export const useVerify = ({
   body,
@@ -22,11 +23,15 @@ export const useVerify = ({
         })
         .then(({ data: response }) => {
           dispatch(userEmails(response as MeTypes));
-          return response || null;
+          return response;
         })
-        .catch(e => e.message),
+        .catch((e: Error) => {
+          errorToast(e.message);
+          throw e;
+        }),
     enabled,
     refetchOnMount: true,
   });
 };
+
 export default useVerify;

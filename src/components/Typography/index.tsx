@@ -25,7 +25,7 @@ export enum TextSize {
   welcome = "welcome",
   sixty = "sixty",
   hundredTwelve = "hundredTwelve",
-  thirty = "thirty",
+  fourty = "fourty",
   eight = "eight",
 }
 

@@ -1,17 +1,23 @@
 import { useGoogleLogin } from "@react-oauth/google";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Bullet from "src/components/Bullet";
 import { TextColor } from "src/components/Typography";
 import tokenMutation from "src/hooks/mutation/tokenMutation";
-import { tokenHandler } from "src/redux/reducers/authReducer";
-import { useAppDispatch } from "src/redux/reduxUtils/types";
+import { tokenHandler, tokenSelector } from "src/redux/reducers/authReducer";
+import { useAppDispatch, useAppSelector } from "src/redux/reduxUtils/types";
 import { successToast } from "src/utils/toast";
 
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const token = useAppSelector(tokenSelector);
 
   const { mutate } = tokenMutation();
+
+  useEffect(() => {
+    if (!!token) navigate("/");
+  }, [token]);
 
   const login = useGoogleLogin({
     flow: "auth-code",
