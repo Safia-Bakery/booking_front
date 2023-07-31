@@ -10,14 +10,15 @@ interface Props {
   register?: Object;
   values?: { id: number | string; name: string; status?: number }[];
   children?: ReactNode;
+  noDefault?: boolean;
 }
 
-const MainSelect: FC<Props> = ({ className, register, values, children, ...others }) => {
+const MainSelect: FC<Props> = ({ className, register, values, children, noDefault, ...others }) => {
   return (
     <select className={cl(className, styles.select)} {...others} {...register}>
       {!children ? (
         <>
-          <option value={undefined}></option>
+          {!noDefault && <option value={undefined}></option>}
           {values?.map(item => (
             <option key={item.id} value={item.id}>
               {item.name}

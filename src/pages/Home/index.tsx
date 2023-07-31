@@ -89,7 +89,7 @@ const Home = () => {
       },
       {
         onSuccess: () => {
-          successToast("created");
+          successToast("Успешно забронировано");
           refetch();
           reset();
           $modal(false);
@@ -120,27 +120,27 @@ const Home = () => {
           $error(undefined);
         }
       });
+    else return $modal(true);
   };
 
   const renderReservedTimes = useMemo(() => {
-    if (reservations?.length)
-      return (
-        <div className="flex flex-col items-start ml-3 h-60 overflow-y-auto pr-10">
-          {reservations
-            .filter(reservation => reservation.date === dayjs(today).format("YYYY-MM-DD"))
-            .map(item => (
-              <div
-                key={item.id}
-                className="cursor-pointer"
-                onClick={() => navigate(`?id=${item.id}`)}>
-                <Typography size={TextSize.L} weight={Weight.medium} textColor={TextColor.white}>
-                  {dayjs(item.from_time).format("HH:mm")} - {dayjs(item.to_time).format("HH:mm")} -{" "}
-                  {item.title}
-                </Typography>
-              </div>
-            ))}
-        </div>
-      );
+    return (
+      <div className="flex flex-col items-start ml-3 h-60 overflow-y-auto pr-10">
+        {reservations
+          ?.filter(reservation => reservation.date === dayjs(today).format("YYYY-MM-DD"))
+          .map(item => (
+            <div
+              key={item.id}
+              className="cursor-pointer"
+              onClick={() => navigate(`?id=${item.id}`)}>
+              <Typography size={TextSize.L} weight={Weight.medium} textColor={TextColor.white}>
+                {dayjs(item.from_time).format("HH:mm")} - {dayjs(item.to_time).format("HH:mm")} -{" "}
+                {item.title}
+              </Typography>
+            </div>
+          ))}
+      </div>
+    );
   }, [reservations, room_id]);
 
   const handleEmails = (e: MultiValue<ValueLabel>, item: ActionMeta<ValueLabel>) => {
@@ -178,7 +178,7 @@ const Home = () => {
 
         <div className="flex flex-col items-start ">
           <BaseInput className="mb-4">
-            <MainSelect value={room_id} values={roomArr} onChange={handleRooms} />
+            <MainSelect noDefault value={room_id} values={roomArr} onChange={handleRooms} />
           </BaseInput>
           <Typography
             className="mb-2 ml-1"

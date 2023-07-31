@@ -1,9 +1,8 @@
 import { FC } from "react";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import cl from "classnames";
 import styles from "./index.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
 import ru from "date-fns/locale/ru";
 
 registerLocale("ru", ru);
@@ -22,7 +21,15 @@ interface Props {
   minTime?: Date;
 }
 
-const MainDatePicker: FC<Props> = ({ className, selected, register, onChange, ...others }) => {
+const MainDatePicker: FC<Props> = ({
+  className,
+  selected,
+  register,
+  onChange,
+  minTime,
+  maxTime,
+  ...others
+}) => {
   return (
     <DatePicker
       onChange={onChange}

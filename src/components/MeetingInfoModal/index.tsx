@@ -16,7 +16,7 @@ const MeetingInfoModal = () => {
   const searchParams = new URLSearchParams(search);
   const id = searchParams.get("id");
   const { data: event, isLoading, isFetching } = useReservation({ id: Number(id) });
-  const { refetch } = useReservations({});
+  const { refetch } = useReservations({ enabled: false });
 
   const { mutate } = deleteReservationMutation();
 
