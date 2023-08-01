@@ -42,6 +42,7 @@ const MeetingInfoModal = () => {
         </Typography>
       ));
   }, [event?.participants]);
+
   return (
     <Modal
       isOpen={!!id}

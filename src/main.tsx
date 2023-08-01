@@ -13,7 +13,7 @@ export const apiClient = new BaseAPIClient(baseURL, store);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <GoogleOAuthProvider clientId="472393125983-vhdijrojcjtj8n0h1dvcpejghn3td3k3.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId="584370108370-gu51j6u432c3gdicmu723dnei97en9ai.apps.googleusercontent.com">
       <PersistGate persistor={persistor} loading={null}>
         <App />
       </PersistGate>

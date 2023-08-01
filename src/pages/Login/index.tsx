@@ -16,7 +16,7 @@ const Login = () => {
   const { mutate } = tokenMutation();
 
   useEffect(() => {
-    if (!!token) navigate("/");
+    if (!!token) navigate(-1); //todo
   }, [token]);
 
   const login = useGoogleLogin({
