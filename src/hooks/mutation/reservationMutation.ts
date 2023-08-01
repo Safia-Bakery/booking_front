@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { apiClient } from "src/main";
 import { tokenSelector } from "src/redux/reducers/authReducer";
-import { roomSelector } from "src/redux/reducers/room";
+import { roomSelector } from "src/redux/reducers/reservations";
 import { useAppSelector } from "src/redux/reduxUtils/types";
 import { errorToast } from "src/utils/toast";
 

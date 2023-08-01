@@ -4,24 +4,24 @@ import CalendarScreen from "src/pages/Calendar";
 import Login from "src/pages/Login";
 import Home from "src/pages/Home";
 import { logoutHandler, tokenSelector } from "src/redux/reducers/authReducer";
-import { animationHandler, animationSelector, roomSelector } from "src/redux/reducers/room";
 import { useAppDispatch, useAppSelector } from "src/redux/reduxUtils/types";
 import styles from "./index.module.scss";
 import useVerify from "src/hooks/useVerify";
 import cl from "classnames";
+import { animationHandler, animationSelector, roomSelector } from "src/redux/reducers/reservations";
 
 const Navigations = () => {
   const me = useAppSelector(tokenSelector);
   const room_id = useAppSelector(roomSelector);
   const dispatch = useAppDispatch();
-  const { isError, error } = useVerify({ body: me, enabled: !!me });
+  const { isError } = useVerify({ body: me, enabled: !!me });
   const isAnimating = useAppSelector(animationSelector);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!me?.token) navigate("/login");
-    if (isError || error) dispatch(logoutHandler());
-  }, [me, isError, error]);
+    if (!me) navigate("/login");
+    if (isError) dispatch(logoutHandler());
+  }, [me, isError]);
 
   return (
     <div className={styles.app}>

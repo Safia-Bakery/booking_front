@@ -7,7 +7,7 @@ import reducer from "./reducers/reducers";
 const persistConfig = {
   key: "booking",
   storage,
-  whitelist: ["auth", "room"],
+  whitelist: ["auth"],
 };
 
 export const store = configureStore({

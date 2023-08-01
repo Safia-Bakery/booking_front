@@ -16,17 +16,18 @@ import MainInput from "src/components/BaseInputs/MainInput";
 import MainTextArea from "src/components/BaseInputs/MainTextArea";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "src/redux/reduxUtils/types";
-import { emailSelector, todaysEventsSelector } from "src/redux/reducers/reservations";
+import {
+  animationHandler,
+  animationSelector,
+  emailSelector,
+  roomNumberHandler,
+  roomSelector,
+  todaysEventsSelector,
+} from "src/redux/reducers/reservations";
 import reservationMutation from "src/hooks/mutation/reservationMutation";
 import { successToast } from "src/utils/toast";
 import { Link, useNavigate } from "react-router-dom";
 import MainSelect from "src/components/BaseInputs/MainSelect";
-import {
-  animationHandler,
-  animationSelector,
-  roomNumberHandler,
-  roomSelector,
-} from "src/redux/reducers/room";
 import { ActionMeta, MultiValue } from "react-select";
 import { ValueLabel } from "src/utils/types";
 import MultiSelect from "src/components/BaseInputs/MultiSelect";
@@ -57,7 +58,6 @@ const Home = () => {
   const [modal, $modal] = useState(false);
 
   const handleRooms = (e: ChangeEvent<HTMLSelectElement>) => {
-    refetch();
     dispatch(animationHandler(true));
     let key = e.target.value;
     setTimeout(() => {

@@ -1,8 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "src/main";
 import { tokenSelector } from "src/redux/reducers/authReducer";
-import { todaysEvents } from "src/redux/reducers/reservations";
-import { roomSelector } from "src/redux/reducers/room";
+import { roomSelector, todaysEvents } from "src/redux/reducers/reservations";
 import { useAppDispatch, useAppSelector } from "src/redux/reduxUtils/types";
 import { Reservations } from "src/utils/types";
 
