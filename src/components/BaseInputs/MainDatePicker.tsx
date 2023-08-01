@@ -21,15 +21,7 @@ interface Props {
   minTime?: Date;
 }
 
-const MainDatePicker: FC<Props> = ({
-  className,
-  selected,
-  register,
-  onChange,
-  minTime,
-  maxTime,
-  ...others
-}) => {
+const MainDatePicker: FC<Props> = ({ className, selected, register, onChange, ...others }) => {
   return (
     <DatePicker
       onChange={onChange}

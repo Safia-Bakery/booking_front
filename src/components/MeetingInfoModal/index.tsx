@@ -18,7 +18,7 @@ const MeetingInfoModal = () => {
   const { data: event, isLoading, isFetching } = useReservation({ id: Number(id) });
   const { refetch } = useReservations({ enabled: false });
 
-  const { mutate } = deleteReservationMutation();
+  const { mutate, isLoading: removing } = deleteReservationMutation();
 
   const handleDelete = () => {
     mutate(Number(id), {
@@ -48,7 +48,7 @@ const MeetingInfoModal = () => {
       isOpen={!!id}
       onClose={() => navigate("?")}
       className="flex min-w-[300px] absolute w-full min-h-[500px]">
-      {isLoading || isFetching ? (
+      {isLoading || isFetching || removing ? (
         <div className="flex max-w-[300px] absolute w-full max-h-[500px] h-full">
           <Loading />
         </div>

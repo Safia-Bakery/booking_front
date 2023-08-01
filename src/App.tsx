@@ -9,6 +9,7 @@ import "dayjs/locale/ru";
 import { BrowserRouter } from "react-router-dom";
 import MeetingInfoModal from "./components/MeetingInfoModal";
 import dayjs from "dayjs";
+
 dayjs.locale("ru");
 
 function App() {

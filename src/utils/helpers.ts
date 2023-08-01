@@ -4,28 +4,6 @@ import dayjs from "dayjs";
 
 export const itemsPerPage = 20;
 
-export const StatusName = [
-  { name: "Активный", id: "1" },
-  { name: "Не активный", id: "0" },
-];
-export const OrderTypeNames = [
-  { name: "APC", id: "APC" },
-  { name: "IT", id: "IT" },
-];
-export const UrgentNames = [
-  { name: "Срочный", id: 1 },
-  { name: "Несрочный", id: 2 },
-];
-export const RegionNames = [
-  { name: "Uzbekistan", id: "Uzbekistan" },
-  { name: "Kazakhstan", id: "Kazakhstan" },
-];
-export const CancelReason = [
-  { name: "Do not needed", id: 1 },
-  { name: "Exidently", id: 2 },
-  { name: "Other", id: 3 },
-];
-
 export const numberWithCommas = (val: number) => {
   return val
     ?.toFixed(2)
@@ -59,26 +37,3 @@ export const queryClient = new QueryClient({
 export const parseTime = (timeString: string | null | undefined) => {
   return dayjs(timeString).format("YYYY-MM-DD HH:mm:ss");
 };
-
-export const emailsArr = [
-  {
-    Email: "adm2020@inha.uz",
-  },
-  {
-    Email: "kwoori@inha.ac.kr",
-    Name: "김우리",
-  },
-  {
-    Email: "sobirovn707@gmail.com",
-    Name: "Shoxzodbek Raximov",
-  },
-  {
-    Email: "ieltssubmit@mail.ru",
-  },
-];
-
-export const customemails = [
-  { value: "adm2020@inha.uz", label: "adm2020@inha.uz" },
-  { value: "kwoori@inha.ac.kr", label: "kwoori@inha.ac.kr" },
-  { value: "sobirovn707@gmail.com", label: "sobirovn707@gmail.com" },
-];

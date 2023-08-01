@@ -16,7 +16,7 @@ const Login = () => {
   const { mutate } = tokenMutation();
 
   useEffect(() => {
-    if (!!token) navigate(-1); //todo
+    if (!!token) navigate("/"); //todo
   }, [token]);
 
   const login = useGoogleLogin({
@@ -30,7 +30,7 @@ const Login = () => {
           onSuccess: data => {
             dispatch(tokenHandler(data));
             successToast("token saved");
-            navigate("/");
+            // navigate("/");
           },
         },
       );

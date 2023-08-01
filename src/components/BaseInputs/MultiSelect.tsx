@@ -1,7 +1,7 @@
 import cl from "classnames";
 import { FC } from "react";
-import Select from "react-select";
 import styles from "./index.module.scss";
+import Select, { useCreatable } from "react-select/creatable";
 
 interface Props {
   onChange?: (val: any, item?: any) => void;

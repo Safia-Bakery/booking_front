@@ -57,6 +57,7 @@ const Home = () => {
   const [modal, $modal] = useState(false);
 
   const handleRooms = (e: ChangeEvent<HTMLSelectElement>) => {
+    refetch();
     dispatch(animationHandler(true));
     let key = e.target.value;
     setTimeout(() => {
@@ -95,6 +96,7 @@ const Home = () => {
           $modal(false);
           $startDate(today);
           $endDate(undefined);
+          $selectedEmails([]);
         },
       },
     );
@@ -105,7 +107,19 @@ const Home = () => {
       todaysEvents?.forEach(item => {
         if (
           dayjs(startDate).isBetween(dayjs(item.from_time), dayjs(item.to_time), null, "[]") ||
-          dayjs(endDate).isBetween(dayjs(item.from_time), dayjs(item.to_time), null, "[]")
+          dayjs(endDate).isBetween(dayjs(item.from_time), dayjs(item.to_time), null, "[]") ||
+          dayjs(item.from_time).isBetween(
+            dayjs(startDate?.toISOString()),
+            dayjs(endDate?.toISOString()),
+            null,
+            "[]",
+          ) ||
+          dayjs(item.to_time).isBetween(
+            dayjs(startDate?.toISOString()),
+            dayjs(endDate?.toISOString()),
+            null,
+            "[]",
+          )
         ) {
           $error("Этот временной диапазон уже зарезервирован");
           return false;
@@ -114,13 +128,20 @@ const Home = () => {
           $error("Выберите правильный диапазон");
           return false;
         }
-        if (!endDate) $error("select end date");
+        if (!endDate) $error("Выберите время заканчивания");
         else {
           $modal(true);
           $error(undefined);
         }
       });
-    else return $modal(true);
+    else {
+      if (dayjs(endDate).isBefore(dayjs(startDate))) {
+        $error("Выберите правильный диапазон");
+        return false;
+      }
+      if (!endDate) $error("select end date");
+      else return $modal(true);
+    }
   };
 
   const renderReservedTimes = useMemo(() => {
