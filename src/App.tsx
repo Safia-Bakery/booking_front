@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 
 dayjs.locale("ru");
 
-function App() {
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
@@ -22,6 +22,6 @@ function App() {
       <ToastContainer />
     </QueryClientProvider>
   );
-}
+};
 
 export default App;

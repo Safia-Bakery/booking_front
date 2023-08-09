@@ -3,7 +3,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import CalendarScreen from "src/pages/Calendar";
 import Login from "src/pages/Login";
 import Home from "src/pages/Home";
-import { logoutHandler, tokenSelector } from "src/redux/reducers/authReducer";
+import { tokenSelector } from "src/redux/reducers/authReducer";
 import { useAppDispatch, useAppSelector } from "src/redux/reduxUtils/types";
 import styles from "./index.module.scss";
 import useVerify from "src/hooks/useVerify";
@@ -20,7 +20,7 @@ const Navigations = () => {
 
   useEffect(() => {
     if (!me) navigate("/login");
-    if (isError) dispatch(logoutHandler());
+    // if (isError) dispatch(logoutHandler());
   }, [me, isError]);
 
   return (

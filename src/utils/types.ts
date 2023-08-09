@@ -47,3 +47,7 @@ export interface AuthTypes {
   token: string;
   refresh_token: string;
 }
+export interface VerifyTypes {
+  users: EmailTypes[];
+  access_token?: string;
+}
