@@ -12,7 +12,7 @@ const deleteReservationMutation = () => {
       apiClient
         .delete({
           url: `/reservations/${id}`,
-          params: { token: token?.token },
+          params: { token },
         })
         .then(({ data }) => data),
     { onError: (e: Error) => errorToast(e.message.toString()) },

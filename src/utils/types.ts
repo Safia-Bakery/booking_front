@@ -44,8 +44,8 @@ export interface MeTypes {
   users: EmailTypes[];
 }
 export interface AuthTypes {
-  token: string;
-  refresh_token: string;
+  token: string | null;
+  refresh_token: string | null;
 }
 export interface VerifyTypes {
   users: EmailTypes[];

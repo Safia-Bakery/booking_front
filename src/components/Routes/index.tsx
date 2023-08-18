@@ -14,7 +14,7 @@ const Navigations = () => {
   const me = useAppSelector(tokenSelector);
   const room_id = useAppSelector(roomSelector);
   const dispatch = useAppDispatch();
-  const { isError } = useVerify({ body: me, enabled: !!me });
+  const { isError } = useVerify({ enabled: !!me });
   const isAnimating = useAppSelector(animationSelector);
   const navigate = useNavigate();
 

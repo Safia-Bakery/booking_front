@@ -1,32 +1,27 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "src/main";
-import { tokenHandler } from "src/redux/reducers/authReducer";
+import { tokenHandler, tokensSelector } from "src/redux/reducers/authReducer";
 import { userEmails } from "src/redux/reducers/reservations";
-import { useAppDispatch } from "src/redux/reduxUtils/types";
+import { useAppDispatch, useAppSelector } from "src/redux/reduxUtils/types";
 import { errorToast } from "src/utils/toast";
-import { AuthTypes, MeTypes } from "src/utils/types";
+import { MeTypes } from "src/utils/types";
 
-export const useVerify = ({
-  body,
-  enabled = true,
-}: {
-  enabled?: boolean;
-  body: AuthTypes | null;
-}) => {
+export const useVerify = ({ enabled = true }: { enabled?: boolean }) => {
   const dispatch = useAppDispatch();
+  const tokens = useAppSelector(tokensSelector);
   return useQuery({
     queryKey: ["verify"],
     queryFn: () =>
       apiClient
         .get("/verify", {
-          token: body?.token.toString(),
-          refresh_token: body?.refresh_token.toString(),
+          token: tokens.token?.toString(),
+          refresh_token: tokens.refresh_token?.toString(),
         })
         .then(({ data: response }: { data: any }) => {
           dispatch(userEmails(response as MeTypes));
           if (response.access_token)
             dispatch(
-              tokenHandler({ token: response.access_token, refresh_token: body?.refresh_token! }),
+              tokenHandler({ token: response.access_token, refresh_token: tokens?.refresh_token! }),
             );
           return response;
         })
