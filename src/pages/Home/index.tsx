@@ -47,7 +47,7 @@ const Home = () => {
   const [startDate, $startDate] = useState<Date>(today);
   const [endDate, $endDate] = useState<Date | null>();
   const { data: reservations, refetch, isLoading: reserveLoading } = useReservations({});
-  const [error, $error] = useState<string>();
+  const [error, $error] = useState<string[]>();
   const todaysEvents = useAppSelector(todaysEventsSelector);
   const { mutate, isLoading: mutateLoading } = reservationMutation();
   const room_id = useAppSelector(roomSelector);
@@ -103,44 +103,48 @@ const Home = () => {
   };
 
   const handleValidation = () => {
-    if (todaysEvents?.length)
+    const errorMessages = [];
+
+    if (!!todaysEvents?.length) {
       todaysEvents?.forEach(item => {
+        const itemFromTime = dayjs(item.from_time);
+        const itemToTime = dayjs(item.to_time);
+
         if (
-          dayjs(startDate).isBetween(dayjs(item.from_time), dayjs(item.to_time), null, "[]") ||
-          dayjs(endDate).isBetween(dayjs(item.from_time), dayjs(item.to_time), null, "[]") ||
-          dayjs(item.from_time).isBetween(
-            dayjs(startDate?.toISOString()),
-            dayjs(endDate?.toISOString()),
-            null,
-            "[]",
-          ) ||
-          dayjs(item.to_time).isBetween(
-            dayjs(startDate?.toISOString()),
-            dayjs(endDate?.toISOString()),
-            null,
-            "[]",
-          )
+          dayjs(startDate).isBetween(itemFromTime, itemToTime, null, "[]") ||
+          dayjs(endDate).isBetween(itemFromTime, itemToTime, null, "[]") ||
+          itemFromTime.isBetween(startDate, endDate, null, "[]") ||
+          itemToTime.isBetween(startDate, endDate, null, "[]")
         ) {
-          $error("Этот временной диапазон уже зарезервирован");
-          return false;
-        }
-        if (dayjs(endDate).isBefore(dayjs(startDate))) {
-          $error("Выберите правильный диапазон");
-          return false;
-        }
-        if (!endDate) $error("Выберите время заканчивания");
-        else {
-          $modal(true);
-          $error(undefined);
+          errorMessages.push("Этот временной диапазон уже зарезервирован");
         }
       });
-    else {
+
       if (dayjs(endDate).isBefore(dayjs(startDate))) {
-        $error("Выберите правильный диапазон");
-        return false;
+        errorMessages.push("Выберите правильный диапазон");
       }
-      if (!endDate) $error("select end date");
-      else return $modal(true);
+
+      if (!endDate) {
+        errorMessages.push("Выберите время заканчивания");
+      }
+    } else {
+      if (dayjs(endDate).isBefore(dayjs(startDate))) {
+        errorMessages.push("Выберите правильный диапазон");
+      }
+
+      if (!endDate) {
+        errorMessages.push("Выберите время заканчивания");
+      }
+    }
+
+    return errorMessages.length === 0 ? undefined : errorMessages;
+  };
+
+  const handleModal = () => {
+    if (!!handleValidation()) $error(handleValidation());
+    else {
+      $error([]);
+      $modal(true);
     }
   };
 
@@ -177,7 +181,15 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, [animation]);
 
-  if (reserveLoading || mutateLoading) return <Loading />;
+  const checkMinTime = useMemo(() => {
+    if (!endDate) return dayjs(startDate).add(10, "minute").toDate();
+    if (endDate)
+      return dayjs(endDate).isSame(dayjs(startDate), "day")
+        ? dayjs(startDate).add(10, "minute").toDate()
+        : dayjs().hour(8).minute(0).toDate();
+  }, [startDate, endDate]);
+
+  // if (reserveLoading || mutateLoading) return <Loading />;
 
   return (
     <Container className={styles.container}>
@@ -229,23 +241,23 @@ const Home = () => {
               onChange={handleDateStart}
             />
           </BaseInput>
-          <BaseInput label="Конец" className="mt-10">
+          <BaseInput label="Конец" className="mt-6">
             <MainDatePicker
-              minTime={dayjs(startDate).add(10, "minute").toDate() || startDate}
+              minTime={checkMinTime}
               maxTime={dayjs().hour(20).minute(0).toDate()}
               selected={endDate}
               onChange={handleDateEnd}
             />
           </BaseInput>
 
-          <Bullet onClick={handleValidation} className={styles.bullet}>
+          <Bullet onClick={handleModal} className={cl(styles.bullet)}>
             Забронировать
           </Bullet>
-          {error && <Alert error={error} />}
+          {!!error?.length && error?.map((item, idx) => <Alert error={item} key={item + idx} />)}
         </div>
       </div>
 
-      <Modal isOpen={modal && !error} onClose={() => $modal(false)}>
+      <Modal isOpen={modal && !error?.length} onClose={() => $modal(false)}>
         <form onSubmit={handleSubmit(onSubmit)} className="p-3 w-96">
           <BaseInput
             label="Название"

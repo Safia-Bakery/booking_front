@@ -1,5 +1,5 @@
 .container {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex: 1;
 }
@@ -21,6 +21,11 @@
   padding: 40px 50px;
   max-width: 450px;
   width: 100%;
+
+  @media (max-width: 1200px) {
+    max-width: 350px;
+    padding: 20px 30px;
+  }
 }
 .bullet {
   border: 1px solid var(--white) !important;

@@ -37,7 +37,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  height: 100%;
 }
 
 @media (prefers-color-scheme: light) {
@@ -82,6 +82,8 @@ body {
 }
 #root {
   width: 100%;
+  max-height: 100svh;
+  height: 100%;
 }
 .rbc-agenda-view {
   overflow: auto !important;

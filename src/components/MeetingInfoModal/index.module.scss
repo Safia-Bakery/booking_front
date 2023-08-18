@@ -1,0 +1,7 @@
+.modal {
+  @media (max-height: 520px) {
+    top: 0;
+    transform: translate(-50%, 0%);
+    height: 95svh;
+  }
+}

@@ -19,7 +19,7 @@ const Navigations = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!me) navigate("/login");
+    // if (!me) navigate("/login");
     // if (isError) dispatch(logoutHandler());
   }, [me, isError]);
 
