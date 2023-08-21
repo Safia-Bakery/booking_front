@@ -259,34 +259,40 @@ const Home = () => {
 
       <Modal isOpen={modal && !error?.length} onClose={() => $modal(false)}>
         <form onSubmit={handleSubmit(onSubmit)} className="p-3 w-96">
-          <BaseInput
-            label="Название"
-            labelClassName={"text-black"}
-            className="mb-4"
-            error={errors.title}>
-            <MainInput
-              className={"border-gray-400 text-gray-500"}
-              register={register("title", { required: "Required field" })}
-            />
-          </BaseInput>
+          {mutateLoading ? (
+            <Loading />
+          ) : (
+            <>
+              <BaseInput
+                label="Название"
+                labelClassName={"text-black"}
+                className="mb-4"
+                error={errors.title}>
+                <MainInput
+                  className={"border-gray-400 text-gray-500"}
+                  register={register("title", { required: "Required field" })}
+                />
+              </BaseInput>
 
-          <BaseInput
-            label="Комментарии"
-            labelClassName={"text-black"}
-            className="mb-4"
-            error={errors.description}>
-            <MainTextArea
-              className={"border-gray-400 text-gray-500"}
-              register={register("description")}
-            />
-          </BaseInput>
+              <BaseInput
+                label="Комментарии"
+                labelClassName={"text-black"}
+                className="mb-4"
+                error={errors.description}>
+                <MainTextArea
+                  className={"border-gray-400 text-gray-500"}
+                  register={register("description")}
+                />
+              </BaseInput>
 
-          <BaseInput label="Участники" labelClassName={"text-black"}>
-            <MultiSelect onChange={handleEmails} options={userEmails} />
-          </BaseInput>
-          <Bullet className="mt-5 !border-gray-400" textColor={TextColor.gray} type="submit">
-            Отправить
-          </Bullet>
+              <BaseInput label="Участники" labelClassName={"text-black"}>
+                <MultiSelect onChange={handleEmails} options={userEmails} />
+              </BaseInput>
+              <Bullet className="mt-5 !border-gray-400" textColor={TextColor.gray} type="submit">
+                Отправить
+              </Bullet>
+            </>
+          )}
         </form>
       </Modal>
     </Container>
