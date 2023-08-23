@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import cl from "classnames";
 import styles from "./index.module.scss";
@@ -22,13 +22,18 @@ interface Props {
 }
 
 const MainDatePicker: FC<Props> = ({ className, selected, register, onChange, ...others }) => {
+  const [select, $select] = useState(false);
   return (
     <DatePicker
       onChange={onChange}
       selected={selected}
       timeFormat="p"
       dateFormat="Pp"
+      readOnly
+      open={select}
       showTimeSelect
+      onClickOutside={() => $select(prev => !prev)}
+      onInputClick={() => $select(prev => !prev)}
       timeIntervals={10}
       wrapperClassName="w-full"
       className={cl(styles.input, className)}

@@ -22,6 +22,11 @@
   max-width: 450px;
   width: 100%;
 
+  // input {
+  //   cursor: pointer;
+  //   pointer-events: none;
+  // }
+
   @media (max-width: 1200px) {
     max-width: 350px;
     padding: 20px 30px;

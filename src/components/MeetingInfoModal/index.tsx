@@ -51,7 +51,7 @@ const MeetingInfoModal = () => {
       onClose={() => navigate("?")}
       className={cl("flex min-w-[300px] absolute w-full max-w-[400px]", styles.modal)}>
       {isLoading || isFetching || removing ? (
-        <div className="flex max-w-[300px] absolute w-full h-full">
+        <div className="flex absolute w-full h-full">
           <Loading />
         </div>
       ) : (
