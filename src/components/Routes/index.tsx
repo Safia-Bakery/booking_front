@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import CalendarScreen from "src/pages/Calendar";
 import Login from "src/pages/Login";
 import Home from "src/pages/Home";
@@ -8,13 +8,21 @@ import styles from "./index.module.scss";
 import useVerify from "src/hooks/useVerify";
 import cl from "classnames";
 import { animationHandler, animationSelector, roomSelector } from "src/redux/reducers/reservations";
+import { useEffect } from "react";
 
 const Navigations = () => {
-  const me = useAppSelector(tokenSelector);
+  const token = useAppSelector(tokenSelector);
   const room_id = useAppSelector(roomSelector);
   const dispatch = useAppDispatch();
-  const { isError } = useVerify({ enabled: !!me });
+  const { isError } = useVerify({ enabled: !!token });
   const isAnimating = useAppSelector(animationSelector);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!token) navigate("/login");
+    // if (isError) dispatch(logoutHandler());
+  }, [token, isError]);
 
   return (
     <div className={styles.app}>

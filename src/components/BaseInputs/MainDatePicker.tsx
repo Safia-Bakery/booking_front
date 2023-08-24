@@ -23,17 +23,22 @@ interface Props {
 
 const MainDatePicker: FC<Props> = ({ className, selected, register, onChange, ...others }) => {
   const [select, $select] = useState(false);
+
+  const toggler = () => $select(prev => !prev);
+
   return (
     <DatePicker
       onChange={onChange}
       selected={selected}
       timeFormat="p"
+      shouldCloseOnSelect
       dateFormat="Pp"
       readOnly
       open={select}
       showTimeSelect
-      onClickOutside={() => $select(prev => !prev)}
-      onInputClick={() => $select(prev => !prev)}
+      onClickOutside={toggler}
+      timeCaption="Время"
+      onInputClick={toggler}
       timeIntervals={10}
       wrapperClassName="w-full"
       className={cl(styles.input, className)}
