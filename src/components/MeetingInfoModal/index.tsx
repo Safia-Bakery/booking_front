@@ -115,27 +115,6 @@ const MeetingInfoModal = () => {
                   Участники:
                 </Typography>
                 <div className="flex flex-col items-start ">{renderParticipants}</div>
-                {/* <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div>
-                <div className="flex flex-col items-start">{renderParticipants}</div> */}
               </div>
             )}
           </div>
