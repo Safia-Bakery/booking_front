@@ -264,7 +264,7 @@ const Home = () => {
           ) : (
             <>
               <BaseInput
-                label="Название"
+                label="Организатор мероприятия"
                 labelClassName={"text-black"}
                 className="mb-4"
                 error={errors.title}>
@@ -275,7 +275,7 @@ const Home = () => {
               </BaseInput>
 
               <BaseInput
-                label="Комментарии"
+                label="Название мероприятия"
                 labelClassName={"text-black"}
                 className="mb-4"
                 error={errors.description}>
