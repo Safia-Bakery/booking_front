@@ -1,9 +1,10 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import cl from "classnames";
 import styles from "./index.module.scss";
 import "react-datepicker/dist/react-datepicker.css";
 import ru from "date-fns/locale/ru";
+import dayjs from "dayjs";
 
 registerLocale("ru", ru);
 setDefaultLocale("ru");
@@ -25,6 +26,11 @@ const MainDatePicker: FC<Props> = ({ className, selected, register, onChange, ..
   const [select, $select] = useState(false);
 
   const toggler = () => $select(prev => !prev);
+  const selectedTime = dayjs(selected).format("HH:mm:ss");
+
+  useEffect(() => {
+    if (selected) $select(false);
+  }, [selectedTime]);
 
   return (
     <DatePicker

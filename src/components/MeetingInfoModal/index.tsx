@@ -105,6 +105,18 @@ const MeetingInfoModal = () => {
                 {dayjs(event?.to_time).format("DD/MM/YYYY HH:mm")}
               </Typography>
             </div>
+            <div className="flex flex-wrap">
+              <Typography
+                size={TextSize.XL}
+                className="mr-4"
+                weight={Weight.bold}
+                textColor={TextColor.black}>
+                Конференц зал:
+              </Typography>
+              <Typography size={TextSize.XL} weight={Weight.medium} textColor={TextColor.black}>
+                {event?.room_id === 1 ? 2 : 1}
+              </Typography>
+            </div>
             {!!event?.participants.length && (
               <div className="flex items-start flex-col h-full flex-1">
                 <Typography

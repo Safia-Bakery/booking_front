@@ -35,8 +35,8 @@ import Loading from "src/components/Loader";
 
 dayjs.extend(isBetween);
 const roomArr = [
-  { id: 1, name: "Конференц зал #1" },
-  { id: 2, name: "Конференц зал #2" },
+  { id: 1, name: "Конференц зал №2" },
+  { id: 2, name: "Конференц зал №1" },
 ];
 
 const today = new Date();
@@ -270,6 +270,7 @@ const Home = () => {
                 error={errors.title}>
                 <MainInput
                   className={"border-gray-400 text-gray-500"}
+                  placeholder={"Организатор"}
                   register={register("title", { required: "Required field" })}
                 />
               </BaseInput>
@@ -280,6 +281,7 @@ const Home = () => {
                 className="mb-4"
                 error={errors.description}>
                 <MainTextArea
+                  placeholder={"Название"}
                   className={"border-gray-400 text-gray-500"}
                   register={register("description")}
                 />
