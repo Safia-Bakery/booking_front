@@ -37,7 +37,7 @@ const MeetingInfoModal = () => {
       return event.participants.map(item => (
         <Typography
           key={item.id}
-          size={TextSize.XXL}
+          size={TextSize.XL}
           weight={Weight.regular}
           textColor={TextColor.black}>
           {item.email}
@@ -55,60 +55,60 @@ const MeetingInfoModal = () => {
           <Loading />
         </div>
       ) : (
-        <div className="flex flex-col p-4 min-w-[300px]  justify-between flex-1">
+        <div className="flex flex-col p-4 min-w-[320px]  justify-between flex-1">
           <div className="flex flex-col max-h-[90%] overflow-y-auto flex-1">
             <div className="flex flex-wrap">
               <Typography
                 className="mr-4"
-                size={TextSize.XXL}
+                size={TextSize.XL}
                 weight={Weight.bold}
                 textColor={TextColor.black}>
-                Название:
+                Организатор мероприятия:
               </Typography>
-              <Typography size={TextSize.XXL} weight={Weight.medium} textColor={TextColor.black}>
+              <Typography size={TextSize.XL} weight={Weight.medium} textColor={TextColor.black}>
                 {event?.title}
               </Typography>
             </div>
             <div className="flex flex-wrap">
               <Typography
-                size={TextSize.XXL}
+                size={TextSize.XL}
                 className="mr-4"
                 weight={Weight.bold}
                 textColor={TextColor.black}>
-                Описание:
+                Название мероприятия:
               </Typography>
-              <Typography size={TextSize.XXL} weight={Weight.medium} textColor={TextColor.black}>
+              <Typography size={TextSize.XL} weight={Weight.medium} textColor={TextColor.black}>
                 {event?.description}
               </Typography>
             </div>
             <div className="flex flex-wrap">
               <Typography
-                size={TextSize.XXL}
+                size={TextSize.XL}
                 className="mr-4"
                 weight={Weight.bold}
                 textColor={TextColor.black}>
                 Начало:
               </Typography>
-              <Typography size={TextSize.XXL} weight={Weight.medium} textColor={TextColor.black}>
+              <Typography size={TextSize.XL} weight={Weight.medium} textColor={TextColor.black}>
                 {dayjs(event?.from_time).format("DD/MM/YYYY HH:mm")}
               </Typography>
             </div>
             <div className="flex flex-wrap">
               <Typography
-                size={TextSize.XXL}
+                size={TextSize.XL}
                 className="mr-4"
                 weight={Weight.bold}
                 textColor={TextColor.black}>
                 Конец:
               </Typography>
-              <Typography size={TextSize.XXL} weight={Weight.medium} textColor={TextColor.black}>
+              <Typography size={TextSize.XL} weight={Weight.medium} textColor={TextColor.black}>
                 {dayjs(event?.to_time).format("DD/MM/YYYY HH:mm")}
               </Typography>
             </div>
             {!!event?.participants.length && (
               <div className="flex items-start flex-col h-full flex-1">
                 <Typography
-                  size={TextSize.XXL}
+                  size={TextSize.XL}
                   className="mr-4"
                   weight={Weight.bold}
                   textColor={TextColor.black}>
