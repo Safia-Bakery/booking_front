@@ -6,8 +6,8 @@ import { AuthTypes } from "src/utils/types";
 const tokenMutation = () => {
   return useMutation(
     ["post_token"],
-    (body: { code: string }) =>
-      apiClient.post({ url: "/auth/google", body }).then(({ data }) => data as AuthTypes),
+    (body: { token: string }) =>
+      apiClient.post({ url: "/auth/login", body }).then(({ data }) => data as AuthTypes),
     { onError: (e: Error) => errorToast(e.message.toString()) },
   );
 };
