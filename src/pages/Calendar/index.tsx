@@ -86,7 +86,7 @@ const EventComponent: React.FC<{ event: MyEvent }> = ({ event }) => {
 };
 
 const CalendarScreen = () => {
-  const { data: reservations, isLoading: reserveLoading } = useReservations({ all: true });
+  const { data: reservations, isLoading: reserveLoading } = useReservations({});
   const navigate = useNavigate();
 
   const handleSelectEvent = (event: MyEvent) => {

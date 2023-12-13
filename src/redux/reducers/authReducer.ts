@@ -2,12 +2,8 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../rootConfig";
 import { AuthTypes } from "src/utils/types";
 
-const initialToken = {
-  token: null,
-  refresh_token: null,
-};
 interface State {
-  tokens: AuthTypes;
+  token: string | null;
   me: {
     id: number;
     username: string;
@@ -17,7 +13,7 @@ interface State {
 }
 
 const initialState: State = {
-  tokens: initialToken,
+  token: null,
   me: null,
 };
 
@@ -28,18 +24,16 @@ export const authReducer = createSlice({
   initialState,
   reducers: {
     logoutHandler: state => {
-      state.tokens = initialToken;
+      state.token = null;
     },
 
     tokenHandler: (state, { payload }: PayloadAction<AuthTypes>) => {
-      state.tokens.token = payload.token;
-      state.tokens.refresh_token = payload.refresh_token;
+      state.token = payload.jwt_token;
     },
   },
 });
 
-export const tokenSelector = (state: RootState) => state.auth.tokens.token;
-export const tokensSelector = (state: RootState) => state.auth.tokens;
+export const tokenSelector = (state: RootState) => state.auth.token;
 
 export const roleSelector = (state: RootState) => state.auth.me;
 

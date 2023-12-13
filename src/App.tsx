@@ -9,10 +9,14 @@ import "dayjs/locale/ru";
 import { BrowserRouter } from "react-router-dom";
 import MeetingInfoModal from "./components/MeetingInfoModal";
 import dayjs from "dayjs";
+import { useAppSelector } from "./redux/reduxUtils/types";
+import { tokenSelector } from "./redux/reducers/authReducer";
 
 dayjs.locale("ru");
 
 const App = () => {
+  const token = useAppSelector(tokenSelector);
+  console.log(token, "token");
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>

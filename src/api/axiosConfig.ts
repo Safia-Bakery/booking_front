@@ -1,5 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig, CancelTokenSource } from "axios";
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, CancelTokenSource } from "axios";
 import { Store } from "redux";
+import { logoutHandler } from "src/redux/reducers/authReducer";
 import { RootState } from "src/redux/rootConfig";
 
 interface BaseUrlParams {
@@ -19,7 +20,7 @@ class BaseAPIClient {
     this.cancelTokenSource = axios.CancelToken.source();
     this.axiosInstance = axios.create({
       baseURL,
-      timeout: 10000,
+      timeout: 3000,
     });
     this.store = store;
 
@@ -28,7 +29,7 @@ class BaseAPIClient {
 
   private handleRequestSuccess = (config: any): any => {
     const state = this.store?.getState();
-    const token = state?.auth.tokens?.token;
+    const token = state?.auth.token;
 
     if (token) {
       config.headers = {
@@ -36,17 +37,51 @@ class BaseAPIClient {
         Authorization: `Bearer ${token}`,
       };
     }
+    // this.store?.dispatch(logoutHandler());
     config.cancelToken = this.cancelTokenSource.token;
     return config;
   };
 
-  private handleRequestError = (e: Error): Promise<never> => {
-    return Promise.reject(e);
-  };
+  private handleRequestError = (error: AxiosError): Promise<never> => {
+    if (axios.isAxiosError(error) && error.response) {
+      // if (error.response.status === 403 || error.response.status === 401) {
+      this.store?.dispatch(logoutHandler());
+      // }
+    }
 
-  public get<T>(url: string, params?: object | null, config?: AxiosRequestConfig) {
-    const fullUrl = this.buildUrlWithParams(url, params);
-    return this.axiosInstance.get<T>(fullUrl, config);
+    // Reject the promise with the error
+    return Promise.reject(error);
+  };
+  private addAuthorizationHeader(config: AxiosRequestConfig): AxiosRequestConfig {
+    const state = this.store?.getState();
+    const token = state?.auth.token;
+
+    if (token) {
+      config.headers = {
+        ...(config.headers || {}),
+        Authorization: `Bearer ${token}`,
+      };
+    }
+
+    return config;
+  }
+
+  public async get<T>(url: string, params?: object, config?: AxiosRequestConfig) {
+    try {
+      const fullUrl = this.buildUrlWithParams(url, params);
+      config = config || {};
+      config = this.addAuthorizationHeader(config);
+
+      const response = await this.axiosInstance.get<T>(fullUrl, config);
+      return response;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        // if (error.response.status === 403 || error.response.status === 401) {
+        this.store?.dispatch(logoutHandler());
+        // }
+      }
+      throw error;
+    }
   }
 
   public post<T>({ url, body, params, config, contentType = "application/json" }: BaseUrlParams) {
@@ -59,28 +94,33 @@ class BaseAPIClient {
     return this.axiosInstance.post<T>(fullUrl, body, config);
   }
 
-  public put<T>({ url, body, params, config }: BaseUrlParams) {
-    const fullUrl = this.buildUrlWithParams(url, params);
-    return this.axiosInstance.put<T>(fullUrl, body, config);
-  }
-
   public delete<T>({ url, body, params }: BaseUrlParams) {
     const fullUrl = this.buildUrlWithParams(url, params);
     return this.axiosInstance.delete<T>(fullUrl, body);
+  }
+
+  public put<T>({ url, body, params, config, contentType = "application/json" }: BaseUrlParams) {
+    const fullUrl = this.buildUrlWithParams(url, params);
+    config = config || {};
+    config.headers = {
+      ...(config.headers || {}),
+      "Content-Type": contentType,
+    };
+    return this.axiosInstance.put<T>(fullUrl, body, config);
   }
 
   public cancelRequest(message?: string): void {
     this.cancelTokenSource.cancel(message);
   }
 
-  private buildUrlWithParams(url: string, params?: object | null): string {
+  private buildUrlWithParams(url: string, params?: object): string {
     if (!params) {
       return url;
     }
 
     const queryParams = Object.entries(params)
-      .filter(([_, value]) => value !== undefined) // Exclude undefined parameters
-      .map(([key, value]) => `${encodeURI(key)}=${encodeURI(value)}`)
+      .filter(([_, value]) => value !== undefined)
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join("&");
 
     if (url.includes("?")) {

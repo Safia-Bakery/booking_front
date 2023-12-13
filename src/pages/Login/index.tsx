@@ -20,12 +20,11 @@ const Login = () => {
   }, [token]);
 
   const login = useGoogleLogin({
-    flow: "auth-code",
     scope:
       "https://www.googleapis.com/auth/contacts https://www.googleapis.com/auth/contacts.other.readonly https://www.googleapis.com/auth/calendar.events",
     onSuccess: tokenResponse => {
       mutate(
-        { token: tokenResponse.code },
+        { token: tokenResponse.access_token },
         {
           onSuccess: data => {
             dispatch(tokenHandler(data));
@@ -36,6 +35,7 @@ const Login = () => {
       );
     },
   });
+
   return (
     <div className="flex flex-1 h-full w-full">
       <Bullet
