@@ -39,7 +39,7 @@ const customStyles = {
 const MultiSelect: FC<Props> = ({ onChange, options, className, ...others }) => {
   return (
     <Select
-      className={cl(className, styles.input, "p-0")}
+      className={cl(className, styles.input, "!p-0")}
       closeMenuOnSelect
       onChange={onChange}
       options={options}

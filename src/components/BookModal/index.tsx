@@ -14,16 +14,11 @@ import MultiSelect from "src/components/BaseInputs/MultiSelect";
 import Loading from "src/components/Loader";
 import useInvitations from "src/hooks/useInvitations";
 import { useState } from "react";
-import { useAppSelector } from "src/redux/reduxUtils/types";
-import { roomSelector } from "src/redux/reducers/reservations";
 import useQueryString from "src/hooks/custom/useQueryString";
 import { useRemoveParams } from "src/hooks/custom/useCustomNavigate";
 
-const today = new Date();
-
 const BookModal = () => {
   const { refetch } = useReservations({});
-  const room_id = useAppSelector(roomSelector);
   const startDate = useQueryString("startDate");
   const endDate = useQueryString("endDate");
   const modal = useQueryString("modal");
@@ -53,10 +48,8 @@ const BookModal = () => {
       {
         start_time: startDate!,
         end_time: endDate!,
-        // invited_users: selectedEmails,
         organized_by: organizer,
         description,
-        room_id,
       },
       {
         onSuccess: () => {
@@ -82,7 +75,7 @@ const BookModal = () => {
               className="mb-4"
               error={errors.title}>
               <MainInput
-                className={"border-gray-400 text-gray-500"}
+                className={"!border-gray-400 text-gray-500"}
                 placeholder={"Организатор"}
                 register={register("organizer", { required: "Required field" })}
               />
@@ -95,7 +88,7 @@ const BookModal = () => {
               error={errors.description}>
               <MainTextArea
                 placeholder={"Название"}
-                className={"border-gray-400 text-gray-500"}
+                className={"!border-gray-400 text-gray-500"}
                 register={register("description")}
               />
             </BaseInput>
@@ -103,7 +96,7 @@ const BookModal = () => {
             <BaseInput label="Участники" labelClassName={"text-black"}>
               <MultiSelect onChange={handleEmails} options={userEmails} />
             </BaseInput>
-            <Bullet className="mt-5 !border-gray-400" textColor={TextColor.gray} type="submit">
+            <Bullet className="mt-5 !border-gray-400 " textColor={TextColor.gray} type="submit">
               Отправить
             </Bullet>
           </>

@@ -44,9 +44,9 @@ class BaseAPIClient {
 
   private handleRequestError = (error: AxiosError): Promise<never> => {
     if (axios.isAxiosError(error) && error.response) {
-      // if (error.response.status === 403 || error.response.status === 401) {
-      this.store?.dispatch(logoutHandler());
-      // }
+      if (error.response.status === 403 || error.response.status === 401) {
+        this.store?.dispatch(logoutHandler());
+      }
     }
 
     // Reject the promise with the error
@@ -66,7 +66,7 @@ class BaseAPIClient {
     return config;
   }
 
-  public async get<T>(url: string, params?: object, config?: AxiosRequestConfig) {
+  public async get<T>({ url, params, config }: BaseUrlParams) {
     try {
       const fullUrl = this.buildUrlWithParams(url, params);
       config = config || {};
@@ -76,9 +76,9 @@ class BaseAPIClient {
       return response;
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        // if (error.response.status === 403 || error.response.status === 401) {
-        this.store?.dispatch(logoutHandler());
-        // }
+        if (error.response.status === 403 || error.response.status === 401) {
+          this.store?.dispatch(logoutHandler());
+        }
       }
       throw error;
     }

@@ -11,7 +11,7 @@ export const useInvitations = ({ enabled = true }: { enabled?: boolean }) => {
     queryKey: ["app_invitations"],
     queryFn: () =>
       apiClient
-        .get("/app/users")
+        .get({ url: "/app/users" })
         .then(response => response.data as Reservations)
         .catch(error => {
           errorToast(error);

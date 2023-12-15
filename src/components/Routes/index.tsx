@@ -1,13 +1,15 @@
 import { Route, Routes, useNavigate } from "react-router-dom";
-import CalendarScreen from "src/pages/Calendar";
-import Login from "src/pages/Login";
-import Home from "src/pages/Home";
 import { tokenSelector } from "src/redux/reducers/authReducer";
 import { useAppDispatch, useAppSelector } from "src/redux/reduxUtils/types";
 import styles from "./index.module.scss";
 import cl from "classnames";
 import { animationHandler, animationSelector, roomSelector } from "src/redux/reducers/reservations";
-import { useEffect } from "react";
+import { lazy, useEffect } from "react";
+import Suspend from "../Suspend";
+
+const Home = lazy(() => import("src/pages/Home"));
+const Login = lazy(() => import("src/pages/Login"));
+const CalendarScreen = lazy(() => import("src/pages/Calendar"));
 
 const Navigations = () => {
   const token = useAppSelector(tokenSelector);
@@ -34,9 +36,30 @@ const Navigations = () => {
         />
       </div>
       <Routes>
-        <Route element={<Home />} path={"/"} />
-        <Route element={<Login />} path={"/login"} />
-        <Route element={<CalendarScreen />} path={"/calendar"} />
+        <Route
+          element={
+            <Suspend>
+              <Home />
+            </Suspend>
+          }
+          path={"/"}
+        />
+        <Route
+          element={
+            <Suspend>
+              <Login />
+            </Suspend>
+          }
+          path={"/login"}
+        />
+        <Route
+          element={
+            <Suspend>
+              <CalendarScreen />
+            </Suspend>
+          }
+          path={"/calendar"}
+        />
       </Routes>
     </div>
   );

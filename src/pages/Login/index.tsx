@@ -16,7 +16,7 @@ const Login = () => {
   const { mutate } = tokenMutation();
 
   useEffect(() => {
-    if (!!token) navigate("/"); //todo
+    if (!!token) navigate("/");
   }, [token]);
 
   const login = useGoogleLogin({
@@ -39,7 +39,7 @@ const Login = () => {
   return (
     <div className="flex flex-1 h-full w-full">
       <Bullet
-        className="w-16 bg-gray-400 rounded-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="!w-16 bg-gray-400 rounded-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         textColor={TextColor.black}
         onClick={() => login()}>
         Вход через Google

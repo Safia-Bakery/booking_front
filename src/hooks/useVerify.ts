@@ -13,9 +13,12 @@ export const useVerify = ({ enabled = true }: { enabled?: boolean }) => {
     queryKey: ["verify"],
     queryFn: () =>
       apiClient
-        .get("/verify", {
-          token: tokens?.toString(),
-          refresh_token: tokens?.toString(),
+        .get({
+          url: "/verify",
+          params: {
+            token: tokens?.toString(),
+            refresh_token: tokens?.toString(),
+          },
         })
         .then(({ data: response }: { data: any }) => {
           dispatch(userEmails(response as MeTypes));

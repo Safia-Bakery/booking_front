@@ -21,6 +21,7 @@ import Loading from "src/components/Loader";
 import BookForm from "src/components/BookForm";
 import BookModal from "src/components/BookModal";
 import useInvitations from "src/hooks/useInvitations";
+import { logoutHandler } from "src/redux/reducers/authReducer";
 
 dayjs.extend(isBetween);
 const roomArr = [
@@ -33,7 +34,7 @@ const today = new Date();
 const Home = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { data: reservations, isLoading: reserveLoading } = useReservations({});
+  const { data: reservations, isLoading: reserveLoading, isError, error } = useReservations({});
   const room_id = useAppSelector(roomSelector);
   const animation = useAppSelector(animationSelector);
 
@@ -46,22 +47,21 @@ const Home = () => {
     }, 500);
   };
 
+  useEffect(() => {
+    if (isError || error) dispatch(logoutHandler());
+  }, [isError, error]);
+
   const renderReservedTimes = useMemo(() => {
     return (
       <div className="flex flex-col items-start ml-3 h-60 overflow-y-auto pr-10">
-        {reservations
-          ?.filter(reservation => reservation.date === dayjs(today).format("YYYY-MM-DD"))
-          .map(item => (
-            <div
-              key={item.id}
-              className="cursor-pointer"
-              onClick={() => navigate(`?id=${item.id}`)}>
-              <Typography size={TextSize.L} weight={Weight.medium} textColor={TextColor.white}>
-                {dayjs(item.from_time).format("HH:mm")} - {dayjs(item.to_time).format("HH:mm")} -{" "}
-                {item.title}
-              </Typography>
-            </div>
-          ))}
+        {reservations?.map(item => (
+          <div key={item.id} className="cursor-pointer" onClick={() => navigate(`?id=${item.id}`)}>
+            <Typography size={TextSize.L} weight={Weight.medium} textColor={TextColor.white}>
+              {dayjs(item.start_time).format("HH:mm")} - {dayjs(item.end_time).format("HH:mm")} -{" "}
+              {item.name}
+            </Typography>
+          </div>
+        ))}
       </div>
     );
   }, [reservations, room_id]);
@@ -74,12 +74,12 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, [animation]);
 
-  if (reserveLoading) return <Loading />;
+  // if (reserveLoading) return <Loading />;
 
   return (
     <Container className={styles.container}>
-      <div className={cl("flex-col", "justify-between", "flex", "mb-6")}>
-        <div className={cl("flex", "h-36")}>
+      <div className={"flex-col justify-between flex mb-6"}>
+        <div className={"flex h-36"}>
           <Link to={"/calendar"}>
             <img src={calendar} className={styles.calendarIcon} alt="calendar-icon" />
           </Link>

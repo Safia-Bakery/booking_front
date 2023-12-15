@@ -30,14 +30,15 @@ export interface ValueLabel {
 }
 
 export interface Reservations {
-  room_id: number;
-  date: string;
-  from_time: string;
-  to_time: string;
-  title: string;
-  description: string;
-  participants: Participants[];
   id: number;
+  room_id: number;
+  created_by: string;
+  organizer: string;
+  invited_users: string[];
+  name: string;
+  description: string;
+  start_time: string;
+  end_time: string;
 }
 
 export interface MeTypes {
