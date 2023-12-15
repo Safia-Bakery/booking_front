@@ -39,7 +39,7 @@ export const reservations = createSlice({
     },
 
     roomNumberHandler: (state, { payload }: PayloadAction<number>) => {
-      state.room_id = payload;
+      state.room_id = +payload;
     },
     animationHandler: (state, { payload }: PayloadAction<boolean>) => {
       state.animating = payload;

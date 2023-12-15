@@ -5,7 +5,7 @@ import Typography, { TextColor, TextSize, Weight } from "../Typography";
 import styles from "./index.module.scss";
 import Alert from "../Alert";
 import Bullet from "../Bullet";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import cl from "classnames";
 import { useNavigateParams, useRemoveParams } from "src/hooks/custom/useCustomNavigate";
 import useQueryString from "src/hooks/custom/useQueryString";
@@ -18,13 +18,15 @@ const BookForm = () => {
   const [error, $error] = useState<string[]>();
 
   const removeParam = useRemoveParams();
-
   const handleRemoveParam = (item: string[]) => () => removeParam(item);
-
   const navigateParam = useNavigateParams();
 
   const handleDateStart = (e: any) => navigateParam({ startDate: e.toISOString() });
   const handleDateEnd = (e: any) => navigateParam({ endDate: e.toISOString() });
+
+  useEffect(() => {
+    navigateParam({ startDate: today.toISOString() });
+  }, []);
 
   const checkMinTime = useMemo(() => {
     if (!endDate) return dayjs(startDate).add(10, "minute").toDate();
@@ -50,6 +52,7 @@ const BookForm = () => {
           minTime={dayjs(today).toDate()}
           maxTime={dayjs().hour(20).minute(0).toDate()}
           onChange={handleDateStart}
+          showTimeSelect
           handleClear={handleRemoveParam(["startDate"])}
           selected={!!startDate && startDate !== "undefined" ? dayjs(startDate).toDate() : today}
         />
@@ -60,6 +63,7 @@ const BookForm = () => {
           maxTime={dayjs().hour(20).minute(0).toDate()}
           selected={!!endDate && endDate !== "undefined" ? dayjs(endDate).toDate() : undefined}
           onChange={handleDateEnd}
+          showTimeSelect
           handleClear={handleRemoveParam(["endDate"])}
         />
       </BaseInput>
