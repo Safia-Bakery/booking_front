@@ -11,7 +11,7 @@ export const useReservation = ({ id, enabled = true }: { enabled?: boolean; id: 
     queryKey: ["reservation", id],
     queryFn: () =>
       apiClient
-        .get({ url: `/reservations/${id}` })
+        .get({ url: `/app/meetings/${id}` })
         .then(response => response.data as Reservations)
         .catch(error => {
           errorToast(error);

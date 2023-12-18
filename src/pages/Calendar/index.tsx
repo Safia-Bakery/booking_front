@@ -97,9 +97,9 @@ const CalendarScreen = () => {
     if (reservations?.length)
       return reservations.map(item => ({
         id: item.id,
-        title: item.title,
-        start: dayjs(item.from_time).toDate(),
-        end: dayjs(item.to_time).toDate(),
+        title: item.organizer,
+        start: dayjs(item.start_time).toDate(),
+        end: dayjs(item.end_time).toDate(),
       }));
 
     return [];

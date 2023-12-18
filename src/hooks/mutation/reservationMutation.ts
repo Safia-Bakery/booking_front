@@ -6,7 +6,7 @@ import { errorToast } from "src/utils/toast";
 
 interface BodyTypes {
   room_id?: number;
-  organized_by: number;
+  organizer: number;
   invited_users?: string[];
   name?: string;
   description: string;
