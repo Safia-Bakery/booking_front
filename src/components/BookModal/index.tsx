@@ -48,7 +48,7 @@ const BookModal = () => {
       {
         start_time: startDate!,
         end_time: endDate!,
-        organized_by: organizer,
+        organizer: organizer,
         description,
       },
       {
@@ -56,6 +56,7 @@ const BookModal = () => {
           successToast("Успешно забронировано");
           refetch();
           reset();
+          removeParams(["modal"]);
           $selectedEmails([]);
         },
       },

@@ -11,7 +11,7 @@ const deleteReservationMutation = () => {
     (id: number) =>
       apiClient
         .delete({
-          url: `/reservations/${id}`,
+          url: `/app/meetings/${id}`,
           params: { token },
         })
         .then(({ data }) => data),
