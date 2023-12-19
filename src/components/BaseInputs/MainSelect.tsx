@@ -18,7 +18,7 @@ const MainSelect: FC<Props> = ({ className, register, values, children, noDefaul
     <select className={cl(className, styles.select)} {...others} {...register}>
       {!children ? (
         <>
-          {!noDefault && <option value={undefined}></option>}
+          {!noDefault && <option className="text-6xl" value={undefined}></option>}
           {values?.map(item => (
             <option key={item.id} value={item.id}>
               {item.name}

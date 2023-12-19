@@ -53,12 +53,17 @@ const Home = () => {
 
   const renderReservedTimes = useMemo(() => {
     return (
-      <div className="flex flex-col items-start ml-3 h-60 overflow-y-auto pr-10">
+      <div className=" flex max-w-[1100px] items-start ml-3  overflow-y-auto pr-10 gap-14">
         {reservations?.map(item => (
           <div key={item.id} className="cursor-pointer" onClick={() => navigate(`?id=${item.id}`)}>
-            <Typography size={TextSize.L} weight={Weight.medium} textColor={TextColor.white}>
-              {dayjs(item.start_time).format("HH:mm")} - {dayjs(item.end_time).format("HH:mm")} -{" "}
-              {item.name}
+            <Typography
+              className="text-[40px] "
+              size={TextSize.welcome}
+              weight={Weight.medium}
+              textColor={TextColor.green}>
+              <div>{dayjs(item.start_time).format("HH:mm")}</div>
+              {/* <div className=" border border-solid " /> */}
+              <div className="">{dayjs(item.end_time).format("HH:mm")}</div>
             </Typography>
           </div>
         ))}
@@ -94,14 +99,20 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-start ">
-          <BaseInput className="mb-4">
-            <MainSelect noDefault value={room_id} values={roomArr} onChange={handleRooms} />
+        <div className="flex flex-col items-start pt-[360px]  ">
+          <BaseInput>
+            <MainSelect
+              className="text-6xl"
+              noDefault
+              value={room_id}
+              values={roomArr}
+              onChange={handleRooms}
+            />
           </BaseInput>
           <Typography
-            className="mb-2 ml-1"
-            size={TextSize.XXL}
-            weight={Weight.medium}
+            className="mb-2 ml-1 text-[40px] "
+            size={TextSize.welcome}
+            weight={Weight.semiBold}
             textColor={TextColor.white}>
             Забронированное время
           </Typography>

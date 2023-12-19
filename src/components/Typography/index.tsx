@@ -16,6 +16,7 @@ export enum TextColor {
   green = "green",
 }
 export enum TextSize {
+  XXXL = "5xl",
   XXL = "xxl",
   XL = "xl",
   L = "l",
