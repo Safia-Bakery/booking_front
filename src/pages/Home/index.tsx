@@ -22,6 +22,7 @@ import BookForm from "src/components/BookForm";
 import BookModal from "src/components/BookModal";
 import useInvitations from "src/hooks/useInvitations";
 import { logoutHandler } from "src/redux/reducers/authReducer";
+import { format } from "path";
 
 dayjs.extend(isBetween);
 const roomArr = [
@@ -53,20 +54,26 @@ const Home = () => {
 
   const renderReservedTimes = useMemo(() => {
     return (
-      <div className=" flex max-w-[1100px] items-start ml-3  overflow-y-auto pr-10 gap-14">
-        {reservations?.map(item => (
-          <div key={item.id} className="cursor-pointer" onClick={() => navigate(`?id=${item.id}`)}>
-            <Typography
-              className="text-[40px] "
-              size={TextSize.welcome}
-              weight={Weight.medium}
-              textColor={TextColor.green}>
-              <div>{dayjs(item.start_time).format("HH:mm")}</div>
-              {/* <div className=" border border-solid " /> */}
-              <div className="">{dayjs(item.end_time).format("HH:mm")}</div>
-            </Typography>
-          </div>
-        ))}
+      <div className=" flex max-w-[1090px] items-start ml-3  overflow-y-auto pr-10 gap-14">
+        {reservations?.map(item => {
+          const active = dayjs(item.end_time).isBefore(new Date());
+          return (
+            <div
+              key={item.id}
+              className="cursor-pointer"
+              onClick={() => navigate(`?id=${item.id}`)}>
+              <Typography
+                className="text-[40px]"
+                size={TextSize.welcome}
+                weight={Weight.medium}
+                textColor={active ? TextColor.red : TextColor.green}>
+                <div>{dayjs(item.start_time).format("HH:mm")}</div>
+                {/* <div className=" border border-solid " /> */}
+                <div>{dayjs(item.end_time).format("HH:mm")}</div>
+              </Typography>
+            </div>
+          );
+        })}
       </div>
     );
   }, [reservations, room_id]);
