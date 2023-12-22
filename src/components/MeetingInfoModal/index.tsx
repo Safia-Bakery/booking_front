@@ -17,6 +17,7 @@ const MeetingInfoModal = () => {
   const navigate = useNavigate();
   const id = useQueryString("id");
   const { data: event, isLoading, isFetching } = useReservation({ id: Number(id) });
+  console.log(event, "event");
   const { refetch } = useReservations({ enabled: false });
 
   const { mutate, isLoading: removing } = deleteReservationMutation();
@@ -104,10 +105,11 @@ const MeetingInfoModal = () => {
                 {dayjs(event?.end_time).format("DD/MM/YYYY HH:mm")}
               </Typography>
             </div>
-            <div className="flex flex-wrap">
+
+            <div className="flex flex-wrap ">
               <Typography
                 size={TextSize.XL}
-                className="mr-4"
+                className="mr-4 "
                 weight={Weight.bold}
                 textColor={TextColor.black}>
                 Конференц зал:
