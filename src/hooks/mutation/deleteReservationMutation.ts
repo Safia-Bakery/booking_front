@@ -5,7 +5,7 @@ import { errorToast } from "src/utils/toast";
 const deleteReservationMutation = () => {
   return useMutation(
     ["delete_reservation"],
-    (id: number) =>
+    (id: string) =>
       apiClient
         .delete({
           url: `/app/meetings/${id}`,

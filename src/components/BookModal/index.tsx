@@ -50,6 +50,7 @@ const BookModal = () => {
         end_time: endDate!,
         organizer: organizer,
         description,
+        invited_users: selectedEmails,
       },
       {
         onSuccess: () => {

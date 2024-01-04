@@ -22,7 +22,7 @@ const MeetingInfoModal = () => {
   const { mutate, isLoading: removing } = deleteReservationMutation();
 
   const handleDelete = () => {
-    mutate(Number(id), {
+    mutate(id!, {
       onSuccess: () => {
         refetch();
         successToast("Успешно удален");
