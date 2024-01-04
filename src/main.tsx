@@ -23,7 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <BrowserRouter>
             <App />
           </BrowserRouter>
-          <ToastContainer />
+          <ToastContainer autoClose={600} />
         </QueryClientProvider>
       </PersistGate>
     </GoogleOAuthProvider>

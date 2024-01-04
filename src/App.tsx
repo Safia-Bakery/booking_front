@@ -5,14 +5,10 @@ import "./index.css";
 import "dayjs/locale/ru";
 import MeetingInfoModal from "./components/MeetingInfoModal";
 import dayjs from "dayjs";
-import { useAppSelector } from "./redux/reduxUtils/types";
-import { tokenSelector } from "./redux/reducers/authReducer";
 
 dayjs.locale("ru");
 
 const App = () => {
-  const token = useAppSelector(tokenSelector);
-  console.log(token, "token");
   return (
     <>
       <Routes />

@@ -16,8 +16,7 @@ import useQueryString from "src/hooks/custom/useQueryString";
 const MeetingInfoModal = () => {
   const navigate = useNavigate();
   const id = useQueryString("id");
-  const { data: event, isLoading, isFetching } = useReservation({ id: Number(id) });
-  console.log(event, "event");
+  const { data: event, isLoading, isFetching } = useReservation({ id: id! });
   const { refetch } = useReservations({ enabled: false });
 
   const { mutate, isLoading: removing } = deleteReservationMutation();

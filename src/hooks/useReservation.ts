@@ -5,7 +5,7 @@ import { useAppSelector } from "src/redux/reduxUtils/types";
 import { errorToast } from "src/utils/toast";
 import { Reservations } from "src/utils/types";
 
-export const useReservation = ({ id, enabled = true }: { enabled?: boolean; id: number }) => {
+export const useReservation = ({ id, enabled = true }: { enabled?: boolean; id: string }) => {
   const token = useAppSelector(tokenSelector);
   return useQuery({
     queryKey: ["reservation", id],
