@@ -19,12 +19,9 @@ import MainSelect from "src/components/BaseInputs/MainSelect";
 import BookForm from "src/components/BookForm";
 import BookModal from "src/components/BookModal";
 import { logoutHandler } from "src/redux/reducers/authReducer";
+import useRooms from "src/hooks/useRooms";
 
 dayjs.extend(isBetween);
-const roomArr = [
-  { id: 1, name: "Конференц зал №1" },
-  { id: 2, name: "Конференц зал №2" },
-];
 
 const today = new Date();
 
@@ -34,6 +31,8 @@ const Home = () => {
   const { data: reservations, isLoading: reserveLoading, isError, error } = useReservations({});
   const room_id = useAppSelector(roomSelector);
   const animation = useAppSelector(animationSelector);
+
+  const { data: rooms } = useRooms({});
 
   const handleRooms = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(animationHandler(true));
@@ -73,6 +72,21 @@ const Home = () => {
     );
   }, [reservations, room_id]);
 
+  const renderRooms = useMemo(() => {
+    if (rooms)
+      return (
+        <BaseInput>
+          <MainSelect
+            className="text-6xl"
+            noDefault
+            value={room_id}
+            values={rooms}
+            onChange={handleRooms}
+          />
+        </BaseInput>
+      );
+  }, [rooms, room_id]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(animationHandler(false));
@@ -102,15 +116,7 @@ const Home = () => {
         </div>
 
         <div className="flex flex-col items-start pt-[360px]  ">
-          <BaseInput>
-            <MainSelect
-              className="text-6xl"
-              noDefault
-              value={room_id}
-              values={roomArr}
-              onChange={handleRooms}
-            />
-          </BaseInput>
+          {renderRooms}
           <Typography
             className="mb-2 ml-1 text-[40px] "
             size={TextSize.welcome}

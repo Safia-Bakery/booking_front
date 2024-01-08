@@ -53,3 +53,8 @@ export interface VerifyTypes {
   users: EmailTypes[];
   access_token?: string;
 }
+
+export interface RoomTypes {
+  id: number;
+  name: string;
+}
