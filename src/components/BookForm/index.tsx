@@ -24,6 +24,14 @@ const BookForm = () => {
   const handleDateStart = (e: any) => navigateParam({ startDate: e.toISOString() });
   const handleDateEnd = (e: any) => navigateParam({ endDate: e.toISOString() });
 
+  const handleSubmit = () => {
+    if (dayjs(startDate).isAfter(endDate)) $error(["Введите правильный диапазон времени"]);
+    else {
+      navigateParam({ modal: 1 });
+      $error(undefined);
+    }
+  };
+
   useEffect(() => {
     navigateParam({ startDate: today.toISOString() });
   }, []);
@@ -68,7 +76,7 @@ const BookForm = () => {
         />
       </BaseInput>
 
-      <Bullet onClick={() => navigateParam({ modal: 1 })} className={cl(styles.bullet)}>
+      <Bullet onClick={handleSubmit} className={cl(styles.bullet)}>
         Забронировать
       </Bullet>
       {!!error?.length && error?.map((item, idx) => <Alert error={item} key={item + idx} />)}

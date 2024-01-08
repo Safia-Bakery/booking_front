@@ -2,7 +2,6 @@ import Container from "src/components/Container";
 import styles from "./index.module.scss";
 import Typography, { TextColor, TextSize, Weight } from "src/components/Typography";
 import calendar from "/assets/icons/calendar.svg";
-import cl from "classnames";
 import dayjs from "dayjs";
 import BaseInput from "src/components/BaseInputs";
 import { ChangeEvent, useEffect, useMemo } from "react";
@@ -17,12 +16,9 @@ import {
 } from "src/redux/reducers/reservations";
 import { Link, useNavigate } from "react-router-dom";
 import MainSelect from "src/components/BaseInputs/MainSelect";
-import Loading from "src/components/Loader";
 import BookForm from "src/components/BookForm";
 import BookModal from "src/components/BookModal";
-import useInvitations from "src/hooks/useInvitations";
 import { logoutHandler } from "src/redux/reducers/authReducer";
-import { format } from "path";
 
 dayjs.extend(isBetween);
 const roomArr = [
@@ -68,7 +64,6 @@ const Home = () => {
                 weight={Weight.medium}
                 textColor={active ? TextColor.red : TextColor.green}>
                 <div>{dayjs(item.start_time).format("HH:mm")}</div>
-                {/* <div className=" border border-solid " /> */}
                 <div>{dayjs(item.end_time).format("HH:mm")}</div>
               </Typography>
             </div>
