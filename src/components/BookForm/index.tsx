@@ -57,7 +57,11 @@ const BookForm = () => {
 
       <BaseInput label="Начало">
         <MainDatePicker
-          minTime={dayjs(today).toDate()}
+          minTime={
+            dayjs(today).date() === dayjs(startDate).date()
+              ? dayjs(startDate).toDate()
+              : dayjs().hour(8).minute(0).toDate()
+          }
           maxTime={dayjs().hour(20).minute(0).toDate()}
           onChange={handleDateStart}
           showTimeSelect

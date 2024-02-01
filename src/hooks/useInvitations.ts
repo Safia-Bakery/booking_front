@@ -3,7 +3,7 @@ import { apiClient } from "src/main";
 import { tokenSelector } from "src/redux/reducers/authReducer";
 import { useAppSelector } from "src/redux/reduxUtils/types";
 import { errorToast } from "src/utils/toast";
-import { Reservations } from "src/utils/types";
+import { UserEmails } from "src/utils/types";
 
 export const useInvitations = ({ enabled = true }: { enabled?: boolean }) => {
   const token = useAppSelector(tokenSelector);
@@ -12,7 +12,7 @@ export const useInvitations = ({ enabled = true }: { enabled?: boolean }) => {
     queryFn: () =>
       apiClient
         .get({ url: "/app/users" })
-        .then(response => response.data as Reservations)
+        .then(response => response.data as UserEmails[])
         .catch(error => {
           errorToast(error);
         }),

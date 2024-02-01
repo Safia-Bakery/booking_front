@@ -20,6 +20,7 @@ import BookForm from "src/components/BookForm";
 import BookModal from "src/components/BookModal";
 import { logoutHandler } from "src/redux/reducers/authReducer";
 import useRooms from "src/hooks/useRooms";
+import Loading from "src/components/Loader";
 
 dayjs.extend(isBetween);
 
@@ -28,11 +29,16 @@ const today = new Date();
 const Home = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { data: reservations, isLoading: reserveLoading, isError, error } = useReservations({});
+  const {
+    data: reservations,
+    isLoading: reserveLoading,
+    isError,
+    error,
+  } = useReservations({ query_date: dayjs(today).format("YYYY-MM-DD") });
   const room_id = useAppSelector(roomSelector);
   const animation = useAppSelector(animationSelector);
 
-  const { data: rooms } = useRooms({});
+  const { data: rooms, isLoading: roomsLoading } = useRooms({});
 
   const handleRooms = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(animationHandler(true));
@@ -95,8 +101,6 @@ const Home = () => {
     return () => clearTimeout(timer);
   }, [animation]);
 
-  // if (reserveLoading) return <Loading />;
-
   return (
     <Container className={styles.container}>
       <div className={"flex-col justify-between flex mb-6"}>
@@ -131,6 +135,7 @@ const Home = () => {
       </div>
 
       <BookModal />
+      {(reserveLoading || roomsLoading) && <Loading absolute />}
     </Container>
   );
 };

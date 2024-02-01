@@ -34,7 +34,7 @@ export interface Reservations {
   room_id: number;
   created_by: string;
   organizer: string;
-  invited_users: string[];
+  invitation: { user_email: string }[];
   name: string;
   description: string;
   start_time: string;
@@ -54,6 +54,15 @@ export interface VerifyTypes {
   access_token?: string;
 }
 
+export interface UserEmails {
+  id: string;
+  role_id: string | number;
+  fullname: string;
+  email: string;
+  reg_date: string;
+  update_date: string;
+  google_token: string;
+}
 export interface RoomTypes {
   id: number;
   name: string;

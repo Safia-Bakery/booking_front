@@ -24,7 +24,7 @@ const reservationMutation = () => {
           url: "/app/meetings",
           body: { ...body, ...{ room_id } },
         })
-        .then(({ data }) => data),
+        .then(data => data),
     { onError: (e: Error) => errorToast(e.message.toString()) },
   );
 };

@@ -1,9 +1,16 @@
+import { FC } from "react";
 import styles from "./index.module.scss";
+import cl from "classnames";
 
-const Loading = () => {
+interface Props {
+  absolute?: boolean;
+  className?: string;
+}
+
+const Loading: FC<Props> = ({ absolute = false, className }) => {
   return (
-    <div className={styles.wrap}>
-      <img src="/assets/images/loading.gif" alt="loading" width={60} height={60} />
+    <div className={cl(className, styles.wrap, { [styles.absolute]: absolute })}>
+      <img src="/assets/images/loading.gif" alt="loading..." />
     </div>
   );
 };

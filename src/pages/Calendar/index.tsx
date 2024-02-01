@@ -11,6 +11,7 @@ import Typography, { TextColor, TextSize, Weight } from "src/components/Typograp
 
 import "moment/locale/ru";
 import Bullet from "src/components/Bullet";
+import Loading from "src/components/Loader";
 const localizer = momentLocalizer(moment);
 
 interface MyEvent extends Event {
@@ -89,9 +90,7 @@ const CalendarScreen = () => {
   const { data: reservations, isLoading: reserveLoading } = useReservations({});
   const navigate = useNavigate();
 
-  const handleSelectEvent = (event: MyEvent) => {
-    navigate(`?id=${event.id}`);
-  };
+  const handleSelectEvent = (event: MyEvent) => navigate(`?id=${event.id}`);
 
   const events: MyEvent[] = useMemo(() => {
     if (reservations?.length)
@@ -104,6 +103,9 @@ const CalendarScreen = () => {
 
     return [];
   }, [reservations]);
+
+  if (reserveLoading) return <Loading absolute />;
+
   return (
     <div>
       <Calendar

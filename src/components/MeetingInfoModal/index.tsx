@@ -12,12 +12,16 @@ import { successToast } from "src/utils/toast";
 import cl from "classnames";
 import styles from "./index.module.scss";
 import useQueryString from "src/hooks/custom/useQueryString";
+const today = new Date();
 
 const MeetingInfoModal = () => {
   const navigate = useNavigate();
   const id = useQueryString("id");
   const { data: event, isLoading, isFetching } = useReservation({ id: id! });
-  const { refetch } = useReservations({ enabled: false });
+  const { refetch } = useReservations({
+    enabled: false,
+    query_date: dayjs(today).format("YYYY-MM-DD"),
+  });
 
   const { mutate, isLoading: removing } = deleteReservationMutation();
 
@@ -32,17 +36,16 @@ const MeetingInfoModal = () => {
   };
 
   const renderParticipants = useMemo(() => {
-    if (event?.invited_users?.length)
-      return event.invited_users?.map((item, idx) => (
-        <Typography
-          key={item + idx}
-          size={TextSize.XL}
-          weight={Weight.regular}
-          textColor={TextColor.black}>
-          {item}
-        </Typography>
-      ));
-  }, [event?.invited_users]);
+    return event?.invitation?.map(({ user_email }, idx) => (
+      <Typography
+        key={user_email + idx}
+        size={TextSize.XL}
+        weight={Weight.regular}
+        textColor={TextColor.black}>
+        {user_email}
+      </Typography>
+    ));
+  }, [event?.invitation]);
 
   return (
     <Modal
@@ -50,9 +53,7 @@ const MeetingInfoModal = () => {
       onClose={() => navigate("?")}
       className={cl("flex min-w-[300px] absolute w-full max-w-[400px]", styles.modal)}>
       {isLoading || isFetching || removing ? (
-        <div className="flex absolute w-full h-full">
-          <Loading />
-        </div>
+        <Loading absolute />
       ) : (
         <div className="flex flex-col p-4 min-w-[320px]  justify-between flex-1">
           <div className="flex flex-col max-h-[90%] overflow-y-auto flex-1">
@@ -88,9 +89,11 @@ const MeetingInfoModal = () => {
                 textColor={TextColor.black}>
                 Начало:
               </Typography>
-              <Typography size={TextSize.XL} weight={Weight.medium} textColor={TextColor.black}>
-                {dayjs(event?.start_time).format("DD/MM/YYYY HH:mm")}
-              </Typography>
+              {event?.start_time && (
+                <Typography size={TextSize.XL} weight={Weight.medium} textColor={TextColor.black}>
+                  {dayjs(event?.start_time).format("DD/MM/YYYY HH:mm")}
+                </Typography>
+              )}
             </div>
             <div className="flex flex-wrap">
               <Typography
@@ -100,9 +103,11 @@ const MeetingInfoModal = () => {
                 textColor={TextColor.black}>
                 Конец:
               </Typography>
-              <Typography size={TextSize.XL} weight={Weight.medium} textColor={TextColor.black}>
-                {dayjs(event?.end_time).format("DD/MM/YYYY HH:mm")}
-              </Typography>
+              {event?.end_time && (
+                <Typography size={TextSize.XL} weight={Weight.medium} textColor={TextColor.black}>
+                  {dayjs(event?.end_time).format("DD/MM/YYYY HH:mm")}
+                </Typography>
+              )}
             </div>
 
             <div className="flex flex-wrap ">
@@ -117,7 +122,7 @@ const MeetingInfoModal = () => {
                 {event?.room_id}
               </Typography>
             </div>
-            {!!event?.invited_users?.length && (
+            {!!event?.invitation?.length && (
               <div className="flex items-start flex-col h-full flex-1">
                 <Typography
                   size={TextSize.XL}

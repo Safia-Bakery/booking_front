@@ -39,8 +39,8 @@ const MainDatePicker: FC<Props> = ({
   showTimeSelect,
   iconClassName,
   dateFormat = "d.MM.yyyy HH:mm",
-  others,
   handleClear,
+  ...others
 }) => {
   const [select, $select] = useState(false);
 

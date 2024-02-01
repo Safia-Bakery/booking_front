@@ -1,17 +1,17 @@
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import BaseAPIClient from "src/api/axiosConfig.ts";
-import { persistor, store } from "src/redux/rootConfig.ts";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter } from "react-router-dom";
-import { queryClient } from "./utils/helpers.ts";
 import { ToastContainer } from "react-toastify";
+import App from "./App.tsx";
+import BaseAPIClient from "src/api/axiosConfig.ts";
+import { persistor, store } from "src/redux/rootConfig.ts";
+import { queryClient } from "./utils/helpers.ts";
+import "./index.css";
 
-// export const baseURL = "http://10.0.2.59:8000";
+// export const baseURL = "http://10.0.0.91:8000";
 export const baseURL = "https://backend.booking.safiabakery.uz";
 export const apiClient = new BaseAPIClient(baseURL, store);
 

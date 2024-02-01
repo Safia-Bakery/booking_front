@@ -27,7 +27,6 @@ export const getKeyByValue = (object: any, value: any) => {
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false,
       cacheTime: EPresetTimes.MINUTE * 10,
       staleTime: EPresetTimes.MINUTE * 5,
     },

@@ -1,12 +1,13 @@
 import cl from "classnames";
 import { FC } from "react";
 import styles from "./index.module.scss";
-import Select, { useCreatable } from "react-select/creatable";
+import Select from "react-select/creatable";
+import { ValueLabel } from "src/utils/types";
 
 interface Props {
   onChange?: (val: any, item?: any) => void;
   className?: string;
-  value?: string;
+  value?: ValueLabel[];
   placeholder?: string | null;
   disabled?: boolean;
   options: any;
