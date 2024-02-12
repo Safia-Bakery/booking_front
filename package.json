@@ -12,7 +12,7 @@
   "dependencies": {
     "@react-oauth/google": "^0.12.1",
     "@reduxjs/toolkit": "^1.9.5",
-    "@tanstack/react-query": "^4.32.0",
+    "@tanstack/react-query": "^5.20.1",
     "@types/node": "^20.4.4",
     "@types/react-big-calendar": "^1.6.4",
     "@types/react-datepicker": "^4.15.0",

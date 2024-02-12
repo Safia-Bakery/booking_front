@@ -4,11 +4,13 @@ import { errorToast } from "src/utils/toast";
 import { AuthTypes } from "src/utils/types";
 
 const tokenMutation = () => {
-  return useMutation(
-    ["post_token"],
-    (body: { token: string }) =>
+  return useMutation({
+    mutationKey: ["post_token"],
+    mutationFn: (body: { token: string }) =>
       apiClient.post({ url: "/auth/login", body }).then(({ data }) => data as AuthTypes),
-    { onError: (e: Error) => errorToast(e.message.toString()) },
-  );
+    retry: 3,
+    retryDelay: 1000,
+    onError: (e: Error) => errorToast(e.message.toString()),
+  });
 };
 export default tokenMutation;

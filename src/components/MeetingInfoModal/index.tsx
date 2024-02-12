@@ -23,7 +23,7 @@ const MeetingInfoModal = () => {
     query_date: dayjs(today).format("YYYY-MM-DD"),
   });
 
-  const { mutate, isLoading: removing } = deleteReservationMutation();
+  const { mutate, isPending: removing } = deleteReservationMutation();
 
   const handleDelete = () => {
     mutate(id!, {

@@ -43,7 +43,7 @@ const BookModal = () => {
     getValues,
   } = useForm();
 
-  const { mutate, isLoading: mutateLoading } = reservationMutation();
+  const { mutate, isPending: mutateLoading } = reservationMutation();
 
   const handleEmails = (e: MultiValue<ValueLabel>, item: ActionMeta<ValueLabel>) => {
     if (item.removedValue) $selectedEmails(e as any);

@@ -16,16 +16,18 @@ interface BodyTypes {
 
 const reservationMutation = () => {
   const room_id = useAppSelector(roomSelector);
-  return useMutation(
-    ["post_reservation"],
-    (body: BodyTypes) =>
+  return useMutation({
+    mutationKey: ["post_reservation"],
+    mutationFn: (body: BodyTypes) =>
       apiClient
         .post({
           url: "/app/meetings",
           body: { ...body, ...{ room_id } },
         })
         .then(data => data),
-    { onError: (e: Error) => errorToast(e.message.toString()) },
-  );
+    retry: 3,
+    retryDelay: 1000,
+    onError: (e: Error) => errorToast(e.message.toString()),
+  });
 };
 export default reservationMutation;
