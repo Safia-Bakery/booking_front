@@ -66,4 +66,6 @@ export interface UserEmails {
 export interface RoomTypes {
   id: number;
   name: string;
+  location: number;
+  image: string;
 }

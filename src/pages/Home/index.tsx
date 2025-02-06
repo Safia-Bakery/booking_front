@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "src/redux/reduxUtils/types";
 import {
   animationHandler,
   animationSelector,
-  roomNumberHandler,
+  roomHandler,
   roomSelector,
 } from "src/redux/reducers/reservations";
 import { Link, useNavigate } from "react-router-dom";
@@ -35,16 +35,17 @@ const Home = () => {
     isError,
     error,
   } = useReservations({ query_date: dayjs(today).format("YYYY-MM-DD") });
-  const room_id = useAppSelector(roomSelector);
+  const { room_id } = useAppSelector(roomSelector);
   const animation = useAppSelector(animationSelector);
 
   const { data: rooms, isLoading: roomsLoading } = useRooms({});
 
   const handleRooms = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(animationHandler(true));
-    let key = e.target.value;
+    const room_id = e.target.value;
+    const room_img = rooms?.find(room => room.id === +room_id)?.image;
     setTimeout(() => {
-      dispatch(roomNumberHandler(Number(key)));
+      dispatch(roomHandler({ room_id: Number(room_id), room_img }));
       dispatch(animationHandler(false));
     }, 500);
   };
@@ -119,7 +120,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="flex flex-col items-start pt-[360px]  ">
+        <div className="flex flex-col items-start pt-[360px]">
           {renderRooms}
           <Typography
             className="mb-2 ml-1 text-[40px] "

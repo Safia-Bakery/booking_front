@@ -15,7 +15,7 @@ interface BodyTypes {
 }
 
 const reservationMutation = () => {
-  const room_id = useAppSelector(roomSelector);
+  const { room_id } = useAppSelector(roomSelector);
   return useMutation({
     mutationKey: ["post_reservation"],
     mutationFn: (body: BodyTypes) =>

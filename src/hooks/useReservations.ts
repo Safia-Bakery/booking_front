@@ -13,7 +13,7 @@ export const useReservations = ({
   enabled?: boolean;
   query_date?: string;
 }) => {
-  const room_id = useAppSelector(roomSelector);
+  const { room_id } = useAppSelector(roomSelector);
   const token = useAppSelector(tokenSelector);
 
   return useQuery({
