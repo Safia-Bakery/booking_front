@@ -11,6 +11,19 @@ import { persistor, store } from "src/redux/rootConfig.ts";
 import { queryClient } from "./utils/helpers.ts";
 import "./index.css";
 import { baseURL } from "./api/base_url.ts";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import updateLocale from "dayjs/plugin/updateLocale";
+import "dayjs/locale/ru";
+
+dayjs.locale("ru");
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(customParseFormat);
+dayjs.extend(updateLocale);
 
 // export const baseURL = "http://10.0.0.91:8000";
 

@@ -2,6 +2,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Bullet from "src/components/Bullet";
+import Loading from "src/components/Loader";
 import { TextColor } from "src/components/Typography";
 import tokenMutation from "src/hooks/mutation/tokenMutation";
 import { tokenHandler, tokenSelector } from "src/redux/reducers/authReducer";
@@ -13,7 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const token = useAppSelector(tokenSelector);
 
-  const { mutate } = tokenMutation();
+  const { mutate, isPending } = tokenMutation();
 
   useEffect(() => {
     if (!!token) navigate("/");
@@ -38,6 +39,7 @@ const Login = () => {
 
   return (
     <div className="flex flex-1 h-full w-full">
+      {isPending && <Loading absolute />}
       <Bullet
         className="!w-16 bg-gray-400 rounded-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         textColor={TextColor.black}

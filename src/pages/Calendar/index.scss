@@ -4,12 +4,14 @@
 }
 .rbc-event {
   z-index: 10;
+  position: relative;
+  background-color: #bea087 !important;
 }
 .rbc-today {
-  background-color: #a29e9e;
+  background-color: #dcc38b4d;
 
   .rbc-time-slot {
-    background-color: #a29e9e !important;
+    background-color: #dcc38b4d !important;
   }
 }
 .rbc-off-range-bg {

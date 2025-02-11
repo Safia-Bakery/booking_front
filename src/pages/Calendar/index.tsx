@@ -1,7 +1,7 @@
 import moment from "moment";
 import React, { useMemo } from "react";
 import { Calendar, momentLocalizer, Event, Views, ToolbarProps } from "react-big-calendar";
-import "moment/locale/ru";
+import "dayjs/locale/ru";
 import useReservations from "src/hooks/useReservations";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./index.scss";
@@ -26,56 +26,60 @@ const MyCustomToolbar: React.FC<ToolbarProps> = ({ label, onView, onNavigate }) 
     <div className="flex py-3 px-2 justify-between">
       <div className="flex gap-4">
         <Bullet
-          className="bg-mainGray"
+          className="bg-[#DCC38B]"
           textColor={TextColor.black}
           onClick={() => onNavigate("TODAY")}>
           Сегодня
         </Bullet>
         <Bullet
-          className="bg-mainGray"
+          className="bg-[#DCC38B]"
           textColor={TextColor.black}
           onClick={() => onNavigate("PREV")}>
           Назад
         </Bullet>
         <Bullet
-          className="bg-mainGray"
+          className="bg-[#DCC38B]"
           textColor={TextColor.black}
           onClick={() => onNavigate("NEXT")}>
           Следующий
         </Bullet>
       </div>
 
-      <Typography textColor={TextColor.black} weight={Weight.medium} size={TextSize.XXL}>
-        {label}
+      <Typography
+        textColor={TextColor.black}
+        weight={Weight.medium}
+        size={TextSize.XXL}
+        className="capitalize">
+        {dayjs(label).format("MMMM - YYYY")}
       </Typography>
 
       <div className="flex gap-4">
         <Bullet
-          className="bg-mainGray"
+          className="bg-[#DCC38B]"
           textColor={TextColor.black}
           onClick={() => onView(Views.MONTH)}>
           Месяц
         </Bullet>
         <Bullet
-          className="bg-mainGray"
+          className="bg-[#DCC38B]"
           textColor={TextColor.black}
           onClick={() => onView(Views.WEEK)}>
           Неделя
         </Bullet>
         <Bullet
-          className="bg-mainGray"
+          className="bg-[#DCC38B]"
           textColor={TextColor.black}
           onClick={() => onView(Views.DAY)}>
           День
         </Bullet>
         <Bullet
-          className="bg-mainGray"
+          className="bg-[#DCC38B]"
           textColor={TextColor.black}
           onClick={() => onView(Views.AGENDA)}>
           Повестка
         </Bullet>
         <Link to="/">
-          <Bullet className="w-16 bg-sky-600 self-end">Домой</Bullet>
+          <Bullet className="w-16 bg-[#BEA087] self-end">Домой</Bullet>
         </Link>
       </div>
     </div>
@@ -121,7 +125,7 @@ const CalendarScreen = () => {
         }}
         className="bg-white"
         defaultView="month"
-        style={{ height: "100vh", width: "100%", overflow: "auto", backgroundColor: "gray" }}
+        style={{ height: "100vh", width: "100%", overflow: "auto" }}
       />
     </div>
   );
